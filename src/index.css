@@ -18,6 +18,26 @@
   --amaranth-purple: #a83f55ff;
   --raisin-black: #231f20ff;
   --french-gray: #cdd1dcff;
+  /*logo colors*/
+  --oink-light: #fdeceeff;
+  --lilac-pastel: #8682a7ff;
+  /*paletton.com colors*/
+  /*https://paletton.com/#uid=55z0u0kaVz84jP27qHbeJtFiHpX*/
+  --primary-10: #FBD9DD;
+  --primary-20: #F9BFC6;
+  --primary-30: #F6A2AC;
+  --primary-40: #E37A87;
+  --primary-50: #C65260;
+  --accent-10: #E9C9DE;
+  --accent-20: #DAA7C9;
+  --accent-30: #C984B2;
+  --accent-40: #B5629A;
+  --accent-50: #9E4280;
+  --secondary-10: #FFEBDD;
+  --secondary-20: #FFDCC4;
+  --secondary-30: #FFCBA8;
+  --secondary-40: #ECAC80;
+  --secondary-50: #CF8756;
 }
 
 a {
