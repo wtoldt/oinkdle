@@ -1,3 +1,7 @@
 {
-  "recommendations": ["imgildev.vscode-auto-barrel", "bradlc.vscode-tailwindcss"]
+  "recommendations": [
+    "imgildev.vscode-auto-barrel",
+    "bradlc.vscode-tailwindcss",
+    "esbenp.prettier-vscode"
+  ]
 }
