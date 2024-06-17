@@ -21,7 +21,13 @@ function App() {
         >
           Play
         </button>
-        <Button>Button</Button>
+        <Button>Primary</Button>
+        <Button variant="secondary" size={'lg'}>
+          Secondary
+        </Button>
+        <Button variant="oink" size={'lg'}>
+          Oink
+        </Button>
       </div>
       <BreakPointIdentifier />
     </div>
