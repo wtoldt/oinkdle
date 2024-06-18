@@ -5,10 +5,10 @@ import { cva, type VariantProps } from 'class-variance-authority';
 
 const buttonVariants = cva(
   `dark:boarder-0 m-1 inline-flex items-center justify-center whitespace-nowrap
-  rounded-2xl border-0 text-sm font-semibold transition-all focus:outline-none
-  focus:ring-0 focus-visible:outline-none focus-visible:ring-2
-  disabled:pointer-events-none disabled:opacity-50 dark:focus:outline-none
-  dark:focus:ring-offset-zinc-800 dark:focus-visible:outline-none`,
+  rounded-2xl border-0 text-sm font-semibold focus:outline-none focus:ring-0
+  focus-visible:outline-none focus-visible:ring-2 disabled:pointer-events-none
+  disabled:opacity-50 dark:focus:outline-none dark:focus:ring-offset-zinc-800
+  dark:focus-visible:outline-none`,
   {
     variants: {
       variant: {
