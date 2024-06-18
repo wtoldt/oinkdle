@@ -1,6 +1,6 @@
 import oinkleLogo from '@/assets/oinkdle-logo.svg';
 import { BreakPointIdentifier } from '@/components/layout/BreakPointIdentifier';
-import { Button, PigButton } from '@/components/ui/';
+import { Button } from '@/components/ui/';
 
 function App() {
   return (
