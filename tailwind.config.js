@@ -65,7 +65,7 @@ export default {
       },
       fontFamily: {
         sans: [
-          'Inter',
+          'Quicksand',
           'system-ui',
           'Avenir',
           'Helvetica',
