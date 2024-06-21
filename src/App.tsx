@@ -1,18 +1,14 @@
-import oinkleLogo from '@/assets/oinkdle-logo.svg';
-import { BreakPointIdentifier } from '@/components/layout/BreakPointIdentifier';
-import { Button } from '@/components/ui/';
+import * as React from 'react';
+import { NewGamePage, GamePage } from '@/pages';
 
 function App() {
-  return (
-    <div className="container mx-auto flex flex-col justify-center px-4">
-      <img src={oinkleLogo} alt="Oinkdle logo" />
-      <h2 className="text-center">A word guessing game for pigs</h2>
-      <div className="flex justify-center">
-        <Button>Play</Button>
-      </div>
-      <BreakPointIdentifier />
-    </div>
-  );
+  const [gameInProgress, setGameInProgress] = React.useState(false);
+
+  if (gameInProgress) {
+    return <GamePage />;
+  } else {
+    return <NewGamePage setGameInProgress={setGameInProgress} />;
+  }
 }
 
 export default App;
