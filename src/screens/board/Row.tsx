@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { cn } from '@/utils';
 import { Guess } from '@/domain';
-import { Tile } from '@/pages';
+import { Tile } from '@/screens';
 
 interface RowProps extends React.ComponentPropsWithoutRef<'div'> {
   guess: Guess;

@@ -1,14 +1,19 @@
 import * as React from 'react';
-import { GameStatusToolbar, Row } from '@/pages';
+import { GameStatusToolbar, Row } from '@/screens';
 import { wordList } from '@/data';
 import shuffle from 'lodash.shuffle';
 import { DefaultLetterEvaluation, Guess } from '@/domain';
 import { unfinishedGuess } from '@/utils';
 import { BreakPointIdentifier } from '@/components/layout';
+import { Button } from '@/components/ui';
 
 const wordListShuffled = shuffle(wordList);
 
-const GamePage: React.FC<React.ComponentPropsWithoutRef<'div'>> = () => {
+type BoardScreenProps = React.ComponentPropsWithoutRef<'div'> & {
+  gotoWordScoreScreen: () => void;
+};
+
+const BoardScreen: React.FC<BoardScreenProps> = ({ gotoWordScoreScreen }) => {
   //game settings
   const totalWords = 6;
   const wordLength = 5;
@@ -23,7 +28,7 @@ const GamePage: React.FC<React.ComponentPropsWithoutRef<'div'>> = () => {
   );
 
   //game round properties
-  const currentGuessWord = 'roo';
+  const currentGuessWord = 'rout';
   const currentGuessIndex = 2;
   const currentGuess = unfinishedGuess(currentGuessWord, wordLength);
   //pretend user has guessed twice
@@ -55,9 +60,10 @@ const GamePage: React.FC<React.ComponentPropsWithoutRef<'div'>> = () => {
           guess={index === currentGuessIndex ? currentGuess : guess}
         />
       ))}
+      <Button onClick={gotoWordScoreScreen}>See Score</Button>
       <BreakPointIdentifier />
     </div>
   );
 };
 
-export { GamePage };
+export { BoardScreen };
