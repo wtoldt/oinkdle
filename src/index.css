@@ -8,6 +8,7 @@
   * {
     @apply border-border;
   }
+
   body {
     @apply bg-background text-foreground;
   }
@@ -34,5 +35,12 @@
   .wrapper {
     @apply mx-auto p-6 sm:p-8;
     max-width: 48rem;
+  }
+}
+
+@layer components {
+  /* common styles for Row and Tile */
+  .board-element {
+    @apply gap-1.5 sm:gap-2;
   }
 }

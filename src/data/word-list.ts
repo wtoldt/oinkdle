@@ -491,4 +491,4 @@ const wordList = [
 
 Object.freeze(wordList);
 
-export default wordList;
+export { wordList };
