@@ -1,7 +1,5 @@
-import { Button } from '@/components';
-import { Divider } from '@/components';
+import { Button, Divider, Row } from '@/components';
 import { DefaultLetterEvaluation, Guess } from '@/domain';
-import { Row } from '@/screens';
 import { Trophy, HeartCrack } from 'lucide-react';
 import { evaluatedGuess, cn } from '@/utils';
 import { cva } from 'class-variance-authority';

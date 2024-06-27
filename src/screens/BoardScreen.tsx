@@ -1,11 +1,14 @@
 import * as React from 'react';
-import { GameStatusToolbar, Row } from '@/screens';
+import {
+  GameStatusToolbar,
+  Board,
+  Button,
+  BreakPointIdentifier,
+} from '@/components';
 import { wordList } from '@/data';
 import shuffle from 'lodash.shuffle';
 import { DefaultLetterEvaluation, Guess } from '@/domain';
 import { unfinishedGuess } from '@/utils';
-import { BreakPointIdentifier } from '@/components';
-import { Button } from '@/components';
 
 const wordListShuffled = shuffle(wordList);
 
@@ -48,19 +51,17 @@ const BoardScreen: React.FC<BoardScreenProps> = ({ gotoWordScoreScreen }) => {
     { letter: 's', evaluation: 'absent' },
   ];
 
+  //set current guess into the guesses array
+  guesses[currentGuessIndex] = currentGuess;
+
   return (
-    <div className="board-element container flex flex-col justify-center px-4">
+    <div className="container flex flex-col justify-center px-4">
       <GameStatusToolbar
         score={score}
         currentWordIndex={currentWordIndex}
         totalWords={totalWords}
       />
-      {guesses.map((guess, index) => (
-        <Row
-          key={index}
-          guess={index === currentGuessIndex ? currentGuess : guess}
-        />
-      ))}
+      <Board guesses={guesses} className="mb-3" />
       <Button onClick={gotoWordScoreScreen}>See Score</Button>
       <BreakPointIdentifier />
     </div>

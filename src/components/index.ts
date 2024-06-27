@@ -1,3 +1,7 @@
+export * from './game/Board';
+export * from './game/GameStatusToolbar';
+export * from './game/Row';
+export * from './game/Tile';
 export * from './layout/BreakPointIdentifier';
 export * from './layout/Divider';
 export * from './layout/Logo';
