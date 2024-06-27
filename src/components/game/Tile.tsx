@@ -17,7 +17,7 @@ const tileVariants = cva('flex items-center justify-center', {
         `h-7 w-7 rounded text-base font-medium sm:h-12 sm:w-12 sm:rounded-md sm:text-3xl
         sm:font-bold`,
       ],
-      tiny: 'h-8 w-8 text-xl font-bold sm:h-10 sm:w-10 sm:text-2xl',
+      tiny: 'h-2 w-2 sm:h-3 sm:w-3 sm:rounded',
     },
   },
   defaultVariants: {
@@ -30,7 +30,11 @@ type TileProps = React.ComponentPropsWithoutRef<'div'> &
   LetterEvaluation;
 
 const Tile: React.FC<TileProps> = ({ letter, evaluation, size }) => {
-  return <div className={cn(tileVariants({ evaluation, size }))}>{letter}</div>;
+  return (
+    <div className={cn(tileVariants({ evaluation, size }))}>
+      {size === 'tiny' ? '' : letter}
+    </div>
+  );
 };
 
 export { Tile };
