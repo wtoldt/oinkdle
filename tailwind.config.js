@@ -5,7 +5,7 @@ export default {
     './index.html',
     './src/App.tsx',
     './src/components/**/*.{js,ts,jsx,tsx}',
-    './src/pages/**/*.{js,ts,jsx,tsx}',
+    './src/screens/**/*.{js,ts,jsx,tsx}',
   ],
   safelist: ['dark'],
   prefix: '',

@@ -17,13 +17,14 @@ const BoardScreen: React.FC<BoardScreenProps> = ({ gotoWordScoreScreen }) => {
   //game settings
   const totalWords = 6;
   const wordLength = 5;
+  const guessCount = 6;
   const gameWords = wordListShuffled.slice(0, 6);
   console.log('words', gameWords);
 
   //game instance properties
   const score = 12;
   const currentWordIndex = 0;
-  const guesses: Guess[] = new Array(totalWords).fill(
+  const guesses: Guess[] = new Array(guessCount).fill(
     new Array(wordLength).fill(new DefaultLetterEvaluation()),
   );
 
