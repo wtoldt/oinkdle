@@ -16,7 +16,7 @@ const unfinishedGuess = (word: string, wordLength: number): Guess => {
 };
 
 /**
- * Turn a word into a Guess with each letter evaluated
+ * Turn a word into a Guess with each letter evaluated the same
  * @param word word to evaluate
  * @param evaluation evaluation to apply to each letter
  * @returns Guess with each letter evaluated
@@ -25,13 +25,12 @@ const evaluatedGuess = (word: string, evaluation: Evaluation): Guess => {
   return word.split('').map((letter) => ({ letter, evaluation }));
 };
 
-/**
- * Turn a word into a correct guess
- * @param word the correct word
- * @returns Guess with letters of the word evaluated as correct
- */
-const correctGuess = (word: string): Guess => {
-  return evaluatedGuess(word, 'correct');
+const isGuessComplete = (guess: Guess): boolean => {
+  return guess.every(({ evaluation }) => evaluation !== 'unevaluated');
 };
 
-export { unfinishedGuess, correctGuess, evaluatedGuess };
+const isGuessWrong = (guess: Guess): boolean => {
+  return guess.some(({ evaluation }) => evaluation !== 'correct');
+};
+
+export { unfinishedGuess, evaluatedGuess, isGuessComplete, isGuessWrong };

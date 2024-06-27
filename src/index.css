@@ -25,11 +25,11 @@
   }
 
   h4 {
-    @apply text-xl font-bold;
+    @apply text-lg font-bold sm:text-xl;
   }
 
   h5 {
-    @apply text-lg font-bold;
+    @apply text-base font-bold sm:text-lg;
   }
 
   .wrapper {
@@ -40,7 +40,15 @@
 
 @layer components {
   /* common styles for Row and Tile */
-  .board-element {
+  .board-gap-big {
     @apply gap-1.5 sm:gap-2;
+  }
+
+  .board-gap-small {
+    @apply gap-0.5 sm:gap-1;
+  }
+
+  .board-gap-tiny {
+    @apply gap-px sm:gap-0.5;
   }
 }

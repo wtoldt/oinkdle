@@ -1,17 +1,31 @@
 import * as React from 'react';
 import { cn } from '@/utils';
+import { cva, type VariantProps } from 'class-variance-authority';
 import { Guess } from '@/domain';
 import { Tile } from '@/components';
 
-interface RowProps extends React.ComponentPropsWithoutRef<'div'> {
-  guess: Guess;
-}
+const rowVariants = cva('mx-auto flex', {
+  variants: {
+    size: {
+      big: 'board-gap-big',
+      small: 'board-gap-small',
+      tiny: 'board-gap-tiny',
+    },
+  },
+  defaultVariants: {
+    size: 'big',
+  },
+});
+type RowProps = React.ComponentPropsWithoutRef<'div'> &
+  VariantProps<typeof rowVariants> & {
+    guess: Guess;
+  };
 
-const Row: React.FC<RowProps> = ({ guess, className }) => {
+const Row: React.FC<RowProps> = ({ guess, className, size }) => {
   return (
-    <div className={cn('board-element mx-auto flex', className)}>
+    <div className={cn(rowVariants({ size }), className)}>
       {guess.map(({ letter, evaluation }, index) => (
-        <Tile key={index} letter={letter} evaluation={evaluation} />
+        <Tile key={index} letter={letter} evaluation={evaluation} size={size} />
       ))}
     </div>
   );

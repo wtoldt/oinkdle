@@ -2,18 +2,30 @@ import * as React from 'react';
 import { Guess } from '@/domain';
 import { Row } from '@/components';
 import { cn } from '@/utils';
+import { cva, type VariantProps } from 'class-variance-authority';
 
-type BoardProps = React.ComponentPropsWithoutRef<'div'> & {
-  guesses: Guess[];
-};
+const boardVariants = cva('flex flex-col justify-center', {
+  variants: {
+    size: {
+      big: 'board-gap-big',
+      small: 'board-gap-small',
+      tiny: 'board-gap-tiny',
+    },
+  },
+  defaultVariants: {
+    size: 'big',
+  },
+});
+type BoardProps = React.ComponentPropsWithoutRef<'div'> &
+  VariantProps<typeof boardVariants> & {
+    guesses: Guess[];
+  };
 
-const Board = ({ guesses, className }: BoardProps) => {
+const Board = ({ guesses, size, className }: BoardProps) => {
   return (
-    <div
-      className={cn('board-element flex flex-col justify-center', className)}
-    >
+    <div className={cn(boardVariants({ size }), className)}>
       {guesses.map((guess, index) => (
-        <Row key={index} guess={guess} />
+        <Row key={index} guess={guess} size={size} />
       ))}
     </div>
   );
