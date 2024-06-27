@@ -4,8 +4,8 @@ import { wordList } from '@/data';
 import shuffle from 'lodash.shuffle';
 import { DefaultLetterEvaluation, Guess } from '@/domain';
 import { unfinishedGuess } from '@/utils';
-import { BreakPointIdentifier } from '@/components/layout';
-import { Button } from '@/components/ui';
+import { BreakPointIdentifier } from '@/components';
+import { Button } from '@/components';
 
 const wordListShuffled = shuffle(wordList);
 

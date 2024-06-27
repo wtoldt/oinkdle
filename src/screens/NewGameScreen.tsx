@@ -1,5 +1,5 @@
-import { Logo } from '@/components/layout';
-import { Button } from '@/components/ui';
+import { Logo } from '@/components';
+import { Button } from '@/components';
 
 type NewGameScreenProps = {
   gotoBoardScreen: () => void;

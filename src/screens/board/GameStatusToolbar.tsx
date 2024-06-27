@@ -1,4 +1,4 @@
-import { Logo } from '@/components/layout';
+import { Logo } from '@/components';
 import { Target } from 'lucide-react';
 
 export interface GameStatusToolbarProps

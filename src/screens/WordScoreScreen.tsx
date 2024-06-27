@@ -1,5 +1,5 @@
-import { Button } from '@/components/ui';
-import { Divider } from '@/components/layout';
+import { Button } from '@/components';
+import { Divider } from '@/components';
 import { DefaultLetterEvaluation, Guess } from '@/domain';
 import { Row } from '@/screens';
 import { Trophy, HeartCrack } from 'lucide-react';
