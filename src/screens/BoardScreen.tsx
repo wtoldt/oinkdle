@@ -1,10 +1,5 @@
 import * as React from 'react';
-import {
-  GameStatusToolbar,
-  Board,
-  Button,
-  BreakPointIdentifier,
-} from '@/components';
+import { GameStatusToolbar, Board, Button } from '@/components';
 import { wordList } from '@/data';
 import shuffle from 'lodash.shuffle';
 import { DefaultLetterEvaluation, Guess } from '@/domain';
@@ -63,7 +58,6 @@ const BoardScreen: React.FC<BoardScreenProps> = ({ gotoWordScoreScreen }) => {
       />
       <Board guesses={guesses} className="mb-3" />
       <Button onClick={gotoWordScoreScreen}>See Score</Button>
-      <BreakPointIdentifier />
     </div>
   );
 };

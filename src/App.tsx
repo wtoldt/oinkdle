@@ -5,6 +5,7 @@ import {
   WordScoreScreen,
   GameScoreScreen,
 } from '@/screens';
+import { BreakPointIdentifier } from '@/components';
 
 type GameScreen = 'newGame' | 'board' | 'wordScore' | 'gameScore';
 
@@ -15,20 +16,26 @@ function App() {
   const gotoWordScoreScreen = () => setScreen('wordScore');
   const gotoGameScoreScreen = () => setScreen('gameScore');
 
-  if (screen === 'newGame') {
-    return <NewGameScreen gotoBoardScreen={gotoBoardScreen} />;
-  } else if (screen === 'board') {
-    return <BoardScreen gotoWordScoreScreen={gotoWordScoreScreen} />;
-  } else if (screen === 'wordScore') {
-    return (
-      <WordScoreScreen
-        gotoBoardScreen={gotoBoardScreen}
-        gotoGameScoreScreen={gotoGameScoreScreen}
-      />
-    );
-  } else if (screen === 'gameScore') {
-    return <GameScoreScreen gotoNewGameScreen={gotoNewGameScreen} />;
-  }
+  return (
+    <div>
+      <BreakPointIdentifier />
+      {screen === 'newGame' && (
+        <NewGameScreen gotoBoardScreen={gotoBoardScreen} />
+      )}
+      {screen === 'board' && (
+        <BoardScreen gotoWordScoreScreen={gotoWordScoreScreen} />
+      )}
+      {screen === 'wordScore' && (
+        <WordScoreScreen
+          gotoBoardScreen={gotoBoardScreen}
+          gotoGameScoreScreen={gotoGameScoreScreen}
+        />
+      )}
+      {screen === 'gameScore' && (
+        <GameScoreScreen gotoNewGameScreen={gotoNewGameScreen} />
+      )}
+    </div>
+  );
 }
 
 export default App;
