@@ -20,7 +20,7 @@ type ReducerFactory = (input?: any) => Reducer;
 const newGame: ReducerFactory = (gameSettings: GameSettings) => {
   return (gameState: GameState): GameState => {
     //shuffle wordlist and pick gameSettings.wordLength words
-    const words = getWords(gameSettings.wordListId, gameSettings.wordLength);
+    const words = getWords(gameSettings.wordListId, gameSettings.rounds);
 
     //fill currentGuesses with unevaluated guesses
     const currentGuesses = new Array(gameSettings.guessesPerRound).fill(
