@@ -1,40 +1,63 @@
-import * as React from 'react';
 import {
   NewGameScreen,
   BoardScreen,
-  WordScoreScreen,
+  RoundScoreScreen,
   GameScoreScreen,
 } from '@/screens';
 import { BreakPointIdentifier } from '@/components';
-
-type GameScreen = 'newGame' | 'board' | 'wordScore' | 'gameScore';
+import { useGameState } from '@/hooks';
 
 function App() {
-  const [screen, setScreen] = React.useState<GameScreen>('newGame');
-  const gotoNewGameScreen = () => setScreen('newGame');
-  const gotoBoardScreen = () => setScreen('board');
-  const gotoWordScoreScreen = () => setScreen('wordScore');
-  const gotoGameScoreScreen = () => setScreen('gameScore');
-
+  const {
+    gameState,
+    newGame,
+    addLetter,
+    removeLetter,
+    evaluateGuess,
+    nextRound,
+  } = useGameState();
+  const {
+    gameSettings,
+    gameScreen,
+    history,
+    currentGuesses,
+    currentGuessWord,
+    currentGuessIndex,
+    currentRoundIndex,
+    prevScore,
+    score,
+    isGameComplete,
+  } = gameState;
   return (
-    <div>
+    <>
       <BreakPointIdentifier />
-      {screen === 'newGame' && (
-        <NewGameScreen gotoBoardScreen={gotoBoardScreen} />
-      )}
-      {screen === 'board' && (
-        <BoardScreen gotoWordScoreScreen={gotoWordScoreScreen} />
-      )}
-      {screen === 'wordScore' && (
-        <WordScoreScreen
-          gotoBoardScreen={gotoBoardScreen}
-          gotoGameScoreScreen={gotoGameScoreScreen}
+      {gameScreen === 'newGame' && <NewGameScreen newGame={newGame} />}
+      {gameScreen === 'board' && (
+        <BoardScreen
+          evaluateGuess={evaluateGuess}
+          addLetter={addLetter}
+          removeLetter={removeLetter}
+          gameSettings={gameSettings}
+          score={score}
+          currentRoundIndex={currentRoundIndex}
+          currentGuessWord={currentGuessWord}
+          currentGuesses={currentGuesses}
+          currentGuessIndex={currentGuessIndex}
         />
       )}
-      {screen === 'gameScore' && (
-        <GameScoreScreen gotoNewGameScreen={gotoNewGameScreen} />
+      {gameScreen === 'roundScore' && (
+        <RoundScoreScreen
+          nextRound={nextRound}
+          isGameComplete={isGameComplete}
+          prevScore={prevScore}
+          newScore={score}
+          round={history[currentRoundIndex - 1]}
+        />
       )}
-    </div>
+      {gameScreen === 'gameScore' && (
+        <GameScoreScreen newGame={newGame} score={score} history={history} />
+      )}
+    </>
   );
 }
 

@@ -1,4 +1,4 @@
-const wordList = [
+const standard5LetterWords = [
   'about',
   'alert',
   'argue',
@@ -489,6 +489,19 @@ const wordList = [
   'voice',
 ];
 
-Object.freeze(wordList);
+Object.freeze(standard5LetterWords);
 
-export { wordList };
+type WordList = {
+  id: string;
+  name: string;
+  wordList: string[];
+};
+
+const wordLists = new Map<string, WordList>();
+wordLists.set('standard-5-letter-words', {
+  id: 'standard-5-letter-words',
+  name: 'Standard 5 Letter Words',
+  wordList: standard5LetterWords,
+});
+
+export { wordLists };

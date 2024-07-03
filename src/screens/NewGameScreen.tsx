@@ -1,17 +1,17 @@
-import { Logo } from '@/components';
-import { Button } from '@/components';
+import { Logo, Button } from '@/components';
+import { defaultGameSettings, type GameSettings } from '@/domain';
 
 type NewGameScreenProps = {
-  gotoBoardScreen: () => void;
+  newGame: (gameSettings: GameSettings) => void;
 };
 
-const NewGameScreen = ({ gotoBoardScreen }: NewGameScreenProps) => {
+const NewGameScreen = ({ newGame }: NewGameScreenProps) => {
   return (
     <div className="container mx-auto flex flex-col justify-center px-4">
       <Logo />
       <h2 className="text-center">A word guessing game for pigs</h2>
       <div className="mt-20 flex justify-center">
-        <Button size="lg" onClick={gotoBoardScreen}>
+        <Button size="lg" onClick={() => newGame(defaultGameSettings)}>
           Play
         </Button>
       </div>

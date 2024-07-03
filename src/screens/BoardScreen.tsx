@@ -1,63 +1,78 @@
 import * as React from 'react';
-import { GameStatusToolbar, Board, Button } from '@/components';
-import { wordList } from '@/data';
-import shuffle from 'lodash.shuffle';
-import { DefaultLetterEvaluation, Guess } from '@/domain';
-import { unfinishedGuess } from '@/utils';
-
-const wordListShuffled = shuffle(wordList);
+import { GameStatusToolbar, Board } from '@/components';
+import { type GameSettings, type Guess } from '@/domain';
+import { createUnfinishedGuess, copyAndUpdateAtIndex } from '@/utils';
 
 type BoardScreenProps = React.ComponentPropsWithoutRef<'div'> & {
-  gotoWordScoreScreen: () => void;
+  evaluateGuess: (word: string) => void;
+  addLetter: (letter: string) => void;
+  removeLetter: () => void;
+  gameSettings: GameSettings;
+  score: number;
+  currentRoundIndex: number;
+  currentGuessWord: string;
+  currentGuesses: Guess[];
+  currentGuessIndex: number;
 };
 
-const BoardScreen: React.FC<BoardScreenProps> = ({ gotoWordScoreScreen }) => {
-  //game settings
-  const totalWords = 6;
-  const wordLength = 5;
-  const guessCount = 6;
-  const gameWords = wordListShuffled.slice(0, 6);
-  console.log('words', gameWords);
+const BoardScreen = ({
+  evaluateGuess,
+  addLetter,
+  removeLetter,
+  gameSettings,
+  score,
+  currentRoundIndex,
+  currentGuessWord,
+  currentGuesses,
+  currentGuessIndex,
+}: BoardScreenProps) => {
+  const { rounds, wordLength } = gameSettings;
 
-  //game instance properties
-  const score = 12;
-  const currentWordIndex = 0;
-  const guesses: Guess[] = new Array(guessCount).fill(
-    new Array(wordLength).fill(new DefaultLetterEvaluation()),
-  );
+  const parseKey = (e: KeyboardEvent) => {
+    const { key } = e;
+    const aplhaOnly = /^[a-z]$/;
 
-  //game round properties
-  const currentGuessWord = 'rout';
-  const currentGuessIndex = 2;
-  const currentGuess = unfinishedGuess(currentGuessWord, wordLength);
-  //pretend user has guessed twice
-  guesses[0] = [
-    { letter: 'r', evaluation: 'correct' },
-    { letter: 'o', evaluation: 'correct' },
-    { letter: 'm', evaluation: 'absent' },
-    { letter: 'a', evaluation: 'absent' },
-    { letter: 'n', evaluation: 'absent' },
-  ];
-  guesses[1] = [
-    { letter: 'r', evaluation: 'correct' },
-    { letter: 'o', evaluation: 'correct' },
-    { letter: 'o', evaluation: 'present' },
-    { letter: 't', evaluation: 'correct' },
-    { letter: 's', evaluation: 'absent' },
-  ];
+    if (key === 'Enter') {
+      if (currentGuessWord.length === wordLength) {
+        //todo: test if word is in wordList
+        // if not, show error
+        // if yes, evaluateGuess
+        evaluateGuess(currentGuessWord);
+      } else {
+        //todo: play animation
+        console.log(
+          `${currentGuessWord} is not ${wordLength} letters long (it is ${currentGuessWord.length})`,
+        );
+      }
+    } else if (key === 'Backspace') {
+      removeLetter();
+    } else if (aplhaOnly.test(key)) {
+      addLetter(key);
+    }
+  };
 
-  //set current guess into the guesses array
-  guesses[currentGuessIndex] = currentGuess;
+  React.useEffect(() => {
+    document.addEventListener('keydown', parseKey);
+    return () => document.removeEventListener('keydown', parseKey);
+  }, [currentGuessWord]);
+
+  const currentGuess = createUnfinishedGuess(currentGuessWord, wordLength);
 
   return (
     <div className="container flex flex-col justify-center px-4">
       <GameStatusToolbar
         score={score}
-        currentWordIndex={currentWordIndex}
-        totalWords={totalWords}
+        currentRound={currentRoundIndex + 1}
+        totalRounds={rounds}
       />
-      <Board guesses={guesses} className="mb-3" />
-      <Button onClick={gotoWordScoreScreen}>See Score</Button>
+      <Board
+        guesses={copyAndUpdateAtIndex(
+          currentGuesses,
+          currentGuessIndex,
+          currentGuess,
+        )}
+        className="mb-3"
+      />
     </div>
   );
 };
