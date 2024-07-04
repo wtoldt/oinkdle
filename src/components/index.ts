@@ -1,5 +1,6 @@
 export * from './game/Board';
 export * from './game/GameStatusToolbar';
+export * from './game/Keyboard';
 export * from './game/Row';
 export * from './game/Tile';
 export * from './layout/BreakPointIdentifier';

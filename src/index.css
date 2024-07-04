@@ -51,4 +51,21 @@
   .board-gap-tiny {
     @apply gap-px sm:gap-0.5;
   }
+
+  /* common styles for evaluation */
+  .evaluation-correct {
+    @apply bg-green-500 text-white;
+  }
+
+  .evaluation-present {
+    @apply bg-yellow-500 text-white;
+  }
+
+  .evaluation-absent {
+    @apply bg-slate-500 text-white;
+  }
+
+  .evaluation-unevaluated {
+    @apply bg-slate-300 text-black;
+  }
 }

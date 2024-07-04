@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { GameStatusToolbar, Board } from '@/components';
+import { GameStatusToolbar, Board, Keyboard } from '@/components';
 import { type GameSettings, type Guess } from '@/domain';
 import { createUnfinishedGuess, copyAndUpdateAtIndex } from '@/utils';
 
@@ -59,7 +59,7 @@ const BoardScreen = ({
   const currentGuess = createUnfinishedGuess(currentGuessWord, wordLength);
 
   return (
-    <div className="container flex flex-col justify-center px-4">
+    <div className="container flex h-screen flex-col justify-center px-4">
       <GameStatusToolbar
         score={score}
         currentRound={currentRoundIndex + 1}
@@ -73,6 +73,9 @@ const BoardScreen = ({
         )}
         className="mb-3"
       />
+      <div className="flex flex-1 items-end justify-center">
+        <Keyboard />
+      </div>
     </div>
   );
 };
