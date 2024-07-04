@@ -54,18 +54,33 @@
 
   /* common styles for evaluation */
   .evaluation-correct {
+    text-shadow: 0 1px 2px rgb(21 128 61 / var(--tw-bg-opacity));
     @apply bg-green-500 text-white;
+    &.btn {
+      @apply transition-colors hover:bg-green-500/90 active:bg-green-600;
+    }
   }
 
   .evaluation-present {
+    text-shadow: 0 1px 2px rgb(161 98 7 / var(--tw-bg-opacity));
     @apply bg-yellow-500 text-white;
+    &.btn {
+      @apply transition-colors hover:bg-yellow-500/90 active:bg-yellow-600;
+    }
   }
 
   .evaluation-absent {
+    text-shadow: 0 1px 2px rgb(51 65 85 / var(--tw-bg-opacity));
     @apply bg-slate-500 text-white;
+    &.btn {
+      @apply transition-colors hover:bg-slate-500/90 active:bg-slate-600;
+    }
   }
 
   .evaluation-unevaluated {
-    @apply bg-slate-300 text-black;
+    @apply bg-slate-300 text-black [&>*:nth-child(1)]:stroke-black;
+    &.btn {
+      @apply transition-colors hover:bg-slate-300/90 active:bg-slate-400;
+    }
   }
 }
