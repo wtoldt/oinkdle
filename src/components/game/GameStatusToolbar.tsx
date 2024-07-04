@@ -1,5 +1,4 @@
-import { Logo } from '@/components';
-import { Target } from 'lucide-react';
+import { Logo, TargetIcon } from '@/components';
 
 export interface GameStatusToolbarProps
   extends React.ComponentPropsWithoutRef<'div'> {
@@ -20,7 +19,7 @@ const GameStatusToolbar = ({
       </span>
       <Logo className="max-w-32 sm:max-w-56" />
       <div className="flex w-16 shrink-0 flex-row items-center justify-evenly">
-        <Target />
+        <TargetIcon />
         {score}
       </div>
     </div>

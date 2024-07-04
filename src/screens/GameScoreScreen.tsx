@@ -1,6 +1,5 @@
 import * as React from 'react';
-import { Button, Divider, Board } from '@/components';
-import { Medal } from 'lucide-react';
+import { Button, Divider, Board, MedalIcon } from '@/components';
 import { type GameSettings, type Round, defaultGameSettings } from '@/domain';
 
 type GameScoreScreenProps = {
@@ -25,10 +24,7 @@ const GameScoreScreen = ({ newGame, score, history }: GameScoreScreenProps) => {
         <h1>Game Complete!</h1>
         <h2 className="mb-5">Final Score:</h2>
         <div className="flex items-center justify-center">
-          <Medal
-            className="mr-2 h-8 w-8 stroke-blue-900 sm:h-12 sm:w-12
-              [&>*:nth-child(n+5)]:stroke-yellow-600"
-          />
+          <MedalIcon className="mr-2 h-8 w-8 sm:h-12 sm:w-12" />
           <h2>{score} Points!</h2>
         </div>
       </div>

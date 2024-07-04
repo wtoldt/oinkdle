@@ -1,14 +1,20 @@
 import * as React from 'react';
-import { Button, Divider, Row, Board } from '@/components';
+import {
+  Button,
+  Divider,
+  Row,
+  Board,
+  TargetIcon,
+  TrophyIcon,
+  HeartCrackIcon,
+} from '@/components';
 import { type Round } from '@/domain';
-import { Trophy, HeartCrack, Target } from 'lucide-react';
 import {
   createEvaluatedGuess,
   cn,
   checkGuessComplete,
   checkGuessWrong,
 } from '@/utils';
-import { cva } from 'class-variance-authority';
 
 type RoundScoreScreenProps = {
   nextRound: () => void;
@@ -36,22 +42,15 @@ const RoundScoreScreen = ({
   //displaying the round score logic
   const { word, score: roundScore, guesses } = round;
   const wasGuessCorrect = roundScore > 0;
-  const iconVariants = cva('mr-3 h-8 w-8 sm:mr-5 sm:h-12 sm:w-12', {
-    variants: {
-      correct: {
-        yes: 'stroke-yellow-600',
-        no: 'stroke-red-700',
-      },
-    },
-  });
+  const iconClasses = cn('mr-3 h-8 w-8 sm:mr-5 sm:h-12 sm:w-12');
 
   return (
     <div className="container">
       <div className="my-12 flex items-center justify-center sm:my-20">
         {wasGuessCorrect ? (
-          <Trophy className={cn(iconVariants({ correct: 'yes' }))} />
+          <TrophyIcon className={iconClasses} />
         ) : (
-          <HeartCrack className={cn(iconVariants({ correct: 'no' }))} />
+          <HeartCrackIcon className={iconClasses} />
         )}
         {wasGuessCorrect ? (
           <h1>{roundScore} Points!</h1>
@@ -115,8 +114,8 @@ const RoundScoreScreen = ({
           )}
           <div className="flex flex-col items-center justify-center pt-3">
             <h3>{wasGuessCorrect ? 'New Score:' : 'Score Unchaged'}</h3>
-            <div className="flex flex-row items-center justify-center">
-              <Target />
+            <div className="flex flex-row items-center justify-center gap-x-2">
+              <TargetIcon />
               <h3>
                 {newScore} Points{wasGuessCorrect ? '!' : ''}
               </h3>
