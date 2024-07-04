@@ -21,14 +21,27 @@ const Keyboard = ({
   currentGuessWord,
   currentGuesses,
 }: KeyboardProps) => {
-  const letterEvaluationLookup = (letter: string): Evaluation => {
-    return (
-      currentGuesses
-        .flat()
-        .find(({ letter: evaluatedLetter }) => evaluatedLetter === letter)
-        ?.evaluation ?? 'unevaluated'
+  const evaluationRanking = ['unevaluated', 'absent', 'present', 'correct'];
+  const letterEvaluationLookup = 'abcdefghijklmnopqrstuvwxyz'
+    .split('')
+    .reduce((map, letter) => {
+      map.set(letter, 'unevaluated');
+      return map;
+    }, new Map<string, Evaluation>());
+  currentGuesses.flat().forEach(({ letter, evaluation }) => {
+    const currentEvaluationRanking = evaluationRanking.indexOf(
+      letterEvaluationLookup.get(letter)!,
     );
+    const newEvaluationRanking = evaluationRanking.indexOf(evaluation);
+    if (newEvaluationRanking > currentEvaluationRanking) {
+      letterEvaluationLookup.set(letter, evaluation);
+    }
+  });
+
+  const getEvaluation = (letter: string): Evaluation => {
+    return letterEvaluationLookup.get(letter) ?? 'unevaluated';
   };
+
   const rowStyle = 'flex w-full items-center justify-center gap-x-1 ';
   return (
     <div className="flex w-full flex-col items-center justify-center gap-y-3 pb-3 sm:gap-y-1">
@@ -36,7 +49,7 @@ const Keyboard = ({
         {topRow.map((letter) => (
           <Key
             key={letter}
-            evaluation={letterEvaluationLookup(letter)}
+            evaluation={getEvaluation(letter)}
             onClick={() => addLetter(letter)}
           >
             {letter}
@@ -48,7 +61,7 @@ const Keyboard = ({
         {middleRow.map((letter) => (
           <Key
             key={letter}
-            evaluation={letterEvaluationLookup(letter)}
+            evaluation={getEvaluation(letter)}
             onClick={() => addLetter(letter)}
           >
             {letter}
@@ -66,7 +79,7 @@ const Keyboard = ({
         {bottomRow.map((letter) => (
           <Key
             key={letter}
-            evaluation={letterEvaluationLookup(letter)}
+            evaluation={getEvaluation(letter)}
             onClick={() => addLetter(letter)}
           >
             {letter}
