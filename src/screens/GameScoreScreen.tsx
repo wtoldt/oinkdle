@@ -20,7 +20,7 @@ const GameScoreScreen = ({ newGame, score, history }: GameScoreScreenProps) => {
   //displaying the game score logic
   return (
     <div className="container">
-      <div className="mt-12 flex flex-col items-center justify-center sm:mt-20">
+      <div className="mt-8 flex flex-col items-center justify-center sm:mt-20">
         <h1>Game Complete!</h1>
         <h2 className="mb-5">Final Score:</h2>
         <div className="flex items-center justify-center">

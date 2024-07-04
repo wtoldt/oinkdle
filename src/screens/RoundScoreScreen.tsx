@@ -46,7 +46,7 @@ const RoundScoreScreen = ({
 
   return (
     <div className="container">
-      <div className="my-12 flex items-center justify-center sm:my-20">
+      <div className="my-8 flex items-center justify-center sm:my-20">
         {wasGuessCorrect ? (
           <TrophyIcon className={iconClasses} />
         ) : (
