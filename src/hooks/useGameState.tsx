@@ -18,7 +18,7 @@ type Reducer = (gameState: GameState) => GameState;
 type ReducerFactory = (input?: any) => Reducer;
 
 const newGame: ReducerFactory = (gameSettings: GameSettings) => {
-  return (gameState: GameState): GameState => {
+  return (): GameState => {
     //shuffle wordlist and pick gameSettings.wordLength words
     const words = getWords(gameSettings.wordListId, gameSettings.rounds);
 

@@ -82,7 +82,7 @@ const RoundScoreScreen = ({
             {guesses
               .filter(checkGuessComplete)
               .filter(checkGuessWrong)
-              .map((guess, index) => (
+              .map((_, index) => (
                 <dd key={index}>-1 Wrong Guess</dd>
               ))}
             <dd>
