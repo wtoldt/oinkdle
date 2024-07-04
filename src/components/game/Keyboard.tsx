@@ -44,7 +44,10 @@ const Keyboard = ({
 
   const rowStyle = 'flex w-full items-center justify-center gap-x-1 ';
   return (
-    <div className="flex w-full flex-col items-center justify-center gap-y-3 pb-3 sm:gap-y-1">
+    <div
+      className="flex w-full touch-none flex-col items-center justify-center gap-y-3 pb-3
+        sm:gap-y-1"
+    >
       <div className={rowStyle}>
         {topRow.map((letter) => (
           <Key
