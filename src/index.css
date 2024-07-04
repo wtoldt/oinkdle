@@ -78,7 +78,7 @@
   }
 
   .evaluation-unevaluated {
-    @apply bg-slate-300 text-black [&>*:nth-child(1)]:stroke-black;
+    @apply bg-slate-300 text-black;
     &.btn {
       @apply transition-colors hover:bg-slate-300/90 active:bg-slate-400;
     }
