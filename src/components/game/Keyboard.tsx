@@ -29,15 +29,32 @@ const keyVariants = cva(
 );
 type KeyProps = React.ComponentPropsWithoutRef<'button'> &
   VariantProps<typeof keyVariants>;
-const Key = ({ children, className, evaluation }: KeyProps) => {
+const Key = ({ children, className, evaluation, onClick }: KeyProps) => {
   return (
-    <button className={cn(keyVariants({ evaluation }), className)}>
+    <button
+      className={cn(keyVariants({ evaluation }), className)}
+      onClick={onClick}
+    >
       {children}
     </button>
   );
 };
 
-const Keyboard = ({ currentGuesses }: { currentGuesses: Guess[] }) => {
+type KeyboardProps = {
+  addLetter: (letter: string) => void;
+  removeLetter: () => void;
+  evaluateGuess: (word: string) => void;
+  currentGuessWord: string;
+  currentGuesses: Guess[];
+};
+
+const Keyboard = ({
+  addLetter,
+  removeLetter,
+  evaluateGuess,
+  currentGuessWord,
+  currentGuesses,
+}: KeyboardProps) => {
   const letterEvaluationLookup = (letter: string): Evaluation => {
     return (
       currentGuesses
@@ -51,7 +68,11 @@ const Keyboard = ({ currentGuesses }: { currentGuesses: Guess[] }) => {
     <div className="flex flex-col items-center justify-center gap-y-3 pb-3 sm:gap-y-1">
       <div className={rowStyle}>
         {topRow.map((letter) => (
-          <Key key={letter} evaluation={letterEvaluationLookup(letter)}>
+          <Key
+            key={letter}
+            evaluation={letterEvaluationLookup(letter)}
+            onClick={() => addLetter(letter)}
+          >
             {letter}
           </Key>
         ))}
@@ -59,22 +80,33 @@ const Keyboard = ({ currentGuesses }: { currentGuesses: Guess[] }) => {
       <div className={rowStyle}>
         <div style={{ flex: '.5' }}>{/*spacer*/}</div>
         {middleRow.map((letter) => (
-          <Key key={letter} evaluation={letterEvaluationLookup(letter)}>
+          <Key
+            key={letter}
+            evaluation={letterEvaluationLookup(letter)}
+            onClick={() => addLetter(letter)}
+          >
             {letter}
           </Key>
         ))}
         <div style={{ flex: '.5' }}>{/*spacer*/}</div>
       </div>
       <div className={rowStyle}>
-        <Key className="w-14 sm:w-20">
-          <CornerDownLeft />
+        <Key
+          className="w-14 sm:w-20"
+          onClick={() => evaluateGuess(currentGuessWord)}
+        >
+          <CornerDownLeft /> {/*Enter*/}
         </Key>
         {bottomRow.map((letter) => (
-          <Key key={letter} evaluation={letterEvaluationLookup(letter)}>
+          <Key
+            key={letter}
+            evaluation={letterEvaluationLookup(letter)}
+            onClick={() => addLetter(letter)}
+          >
             {letter}
           </Key>
         ))}
-        <Key className="w-14 sm:w-20">
+        <Key className="w-14 sm:w-20" onClick={removeLetter}>
           <Delete />
         </Key>
       </div>

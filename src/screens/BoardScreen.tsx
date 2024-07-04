@@ -74,7 +74,13 @@ const BoardScreen = ({
         className="mb-3"
       />
       <div className="flex flex-1 items-end justify-center">
-        <Keyboard currentGuesses={currentGuesses} />
+        <Keyboard
+          addLetter={addLetter}
+          removeLetter={removeLetter}
+          evaluateGuess={evaluateGuess}
+          currentGuessWord={currentGuessWord}
+          currentGuesses={currentGuesses}
+        />
       </div>
     </div>
   );
