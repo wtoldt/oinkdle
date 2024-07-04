@@ -44,7 +44,7 @@ const GameScoreScreen = ({ newGame, score, history }: GameScoreScreenProps) => {
               {round.word}
             </div>
             <div className="w-20 flex-none font-bold sm:text-xl">
-              {round.score} Point{round.score > 1 ? 's' : ''}
+              {round.score} Point{round.score === 1 ? '' : 's'}
             </div>
           </div>
         ))}
