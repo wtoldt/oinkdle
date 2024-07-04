@@ -3,10 +3,13 @@
  * @returns JSX.Element
  */
 export function BreakPointIdentifier() {
+  if (import.meta.env.PROD) {
+    return null;
+  }
   // JSX element that displays the current breakpoint
   return (
     /* Container for displaying the current breakpoint */
-    <div className="bg-pig-purple-900 text-pig-purple-400 absolute bottom-0 left-0 rounded-full px-2">
+    <div className="absolute bottom-0 left-0 rounded-full bg-pig-purple-900 px-2 text-pig-purple-400">
       {/* Display "smallest" when the screen size is the smallest */}
       <span className="sm:hidden">smallest</span>
       {/* Display "sm" when the screen size is small */}
