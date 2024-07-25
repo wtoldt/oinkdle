@@ -36,7 +36,6 @@ interface GameState {
   currentGuessWord: string;
   currentGuessIndex: number;
   currentRoundIndex: number;
-  //todo do we really need roundScore? its already in Round
   roundScore: number;
   prevScore: number;
   score: number;

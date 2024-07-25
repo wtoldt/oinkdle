@@ -11,11 +11,128 @@ import {
   evaluateLetter,
   copyAndUpdateAtIndex,
   checkGuessCorrect,
-  scoreRound,
 } from '@/utils';
 
 type Reducer = (gameState: GameState) => GameState;
 type ReducerFactory = (input?: any) => Reducer;
+
+const goToRoundScoreScreen: Reducer = (gameState: GameState) => {
+  return {
+    ...gameState,
+    gameScreen: 'roundScore',
+  };
+};
+
+const scoreRound: Reducer = (gameState: GameState) => {
+  const {
+    gameSettings,
+    currentGuesses,
+    currentGuessIndex: guessesMade,
+  } = gameState;
+  const { guessesPerRound: guessesAllowed } = gameSettings;
+  const isLastGuessCorrect = checkGuessCorrect(
+    currentGuesses[currentGuesses.length - 1],
+  );
+  //roundScore is total guesses per round - incorrect guesses
+  //assume every guess made so far is wrong
+  //but the latest guess, the one making us score this round, may be correct
+  //in which case we add 1
+  const newRoundScore =
+    guessesAllowed - guessesMade + (isLastGuessCorrect ? 1 : 0);
+
+  return {
+    ...gameState,
+    roundScore: newRoundScore,
+  };
+};
+
+const updateHistory: Reducer = (gameState: GameState) => {
+  const { history, currentWord, roundScore, currentGuesses } = gameState;
+  //create a Round out of the Guesses and score, push it to history
+  return {
+    ...gameState,
+    history: [
+      ...history,
+      {
+        word: currentWord,
+        score: roundScore,
+        guesses: currentGuesses,
+      },
+    ],
+  };
+};
+
+const incrementCurrentRoundIndex: Reducer = (gameState: GameState) => {
+  return {
+    ...gameState,
+    currentRoundIndex: gameState.currentRoundIndex + 1,
+  };
+};
+
+const resetCurrentGuessIndex: Reducer = (gameState: GameState) => {
+  return {
+    ...gameState,
+    currentGuessIndex: 0,
+  };
+};
+
+const setCurrentWordToNextWord: Reducer = (gameState: GameState) => {
+  const { words, currentWord } = gameState;
+  const currentWordIndex = words.indexOf(currentWord);
+  if (currentWordIndex + 1 > words.length) {
+    throw new RangeError(
+      'Trying to set next word but the current word is the last word',
+    );
+  }
+  return {
+    ...gameState,
+    currentWord: words[currentWordIndex + 1],
+  };
+};
+
+const resetCurrentGuesses: Reducer = (gameState: GameState) => {
+  //reset guesses by filling with unevaluated guesses
+  return {
+    ...gameState,
+    currentGuesses: new Array(gameState.gameSettings.guessesPerRound).fill(
+      createUnevaluatedGuess(gameState.gameSettings.wordLength),
+    ),
+  };
+};
+
+const updateGameScores: Reducer = (gameState: GameState) => {
+  return {
+    ...gameState,
+    prevScore: gameState.score,
+    score: gameState.score + gameState.roundScore,
+  };
+};
+
+const evaluateIsGameComplete: Reducer = (gameState: GameState) => {
+  //newCurrentRoundIndex is zero based, so when it reaches gameSettings.rounds, it's game over
+  return {
+    ...gameState,
+    isGameComplete:
+      gameState.currentRoundIndex >= gameState.gameSettings.rounds,
+  };
+};
+
+const endRound: Reducer = (gameState: GameState) => {
+  return [
+    goToRoundScoreScreen,
+    scoreRound,
+    updateHistory,
+    incrementCurrentRoundIndex,
+    resetCurrentGuessIndex,
+    setCurrentWordToNextWord,
+    resetCurrentGuesses,
+    updateGameScores,
+    evaluateIsGameComplete,
+  ].reduce(
+    (newGameState: GameState, reducer: Reducer) => reducer(newGameState),
+    gameState,
+  );
+};
 
 const newGame: ReducerFactory = (gameSettings: GameSettings) => {
   return (): GameState => {
@@ -80,21 +197,9 @@ const removeLetter: ReducerFactory = () => {
 
 const evaluateGuess: ReducerFactory = (word: string) => {
   return (gameState: GameState) => {
-    const {
-      gameSettings,
-      gameScreen,
-      words,
-      currentWord,
-      history,
-      currentGuesses,
-      currentGuessIndex,
-      currentRoundIndex,
-      roundScore,
-      prevScore,
-      score,
-      isGameComplete,
-    } = gameState;
-    const { guessesPerRound, rounds } = gameSettings;
+    const { gameSettings, currentWord, currentGuesses, currentGuessIndex } =
+      gameState;
+    const { guessesPerRound } = gameSettings;
 
     //#########################################################
     //   Stuff we for sure do every time we evaluate a guess
@@ -114,71 +219,28 @@ const evaluateGuess: ReducerFactory = (word: string) => {
     const newCurrentGuessWord = '';
     let newCurrentGuessIndex = currentGuessIndex + 1;
 
+    let newGameState: GameState = {
+      ...gameState,
+      currentGuesses: newGuesses,
+      currentGuessWord: newCurrentGuessWord,
+      currentGuessIndex: newCurrentGuessIndex,
+    };
+
     //#########################################################
     //   Stuff we do if the guess is correct or round is over
     //#########################################################
     //if round is over, update lots of state
     const isRoundOver =
       isGuessCorrect || newCurrentGuessIndex >= guessesPerRound;
-    let newGameScreen = gameScreen;
-    let newHistory = history;
-    let newCurrentRoundIndex = currentRoundIndex;
-    let newCurrentWord = currentWord;
-    let newRoundScore = roundScore;
-    let newPrevScore = prevScore;
-    let newScore = score;
-    let newIsGameComplete = isGameComplete;
-
     if (isRoundOver) {
-      //go to roundScore screen to see round score breakdown
-      newGameScreen = 'roundScore';
-      //see scoreRound function for scoring rules
-      newRoundScore = scoreRound({
-        guessesAllowed: guessesPerRound,
-        guessesMade: newCurrentGuessIndex,
-        isLastGuessCorrect: isGuessCorrect,
-      });
-      //create a Round out of the Guesses and score, push it to history
-      newHistory = [
-        ...history,
-        {
-          word: currentWord,
-          score: newRoundScore,
-          guesses: newGuesses,
-        },
-      ];
-      //increase currentRoundIndex and reset currentGuessIndex
-      newCurrentRoundIndex = currentRoundIndex + 1;
-      newCurrentGuessIndex = 0;
-      newCurrentWord = words[newCurrentRoundIndex];
-      //reset guesses by filling with unevaluated guesses
-      newGuesses = new Array(gameSettings.guessesPerRound).fill(
-        createUnevaluatedGuess(gameSettings.wordLength),
-      );
-      //update game scores
-      newPrevScore = score;
-      newScore = score + newRoundScore;
-
-      //update isGameComplete (newCurrentRoundIndex is zero based, so when it reaches gameSettings.rounds, it's game over)
-      newIsGameComplete = newCurrentRoundIndex >= rounds;
+      newGameState = {
+        ...newGameState,
+        ...endRound(newGameState),
+      };
     }
 
     //return state
-    return {
-      gameSettings,
-      gameScreen: newGameScreen,
-      words,
-      currentWord: newCurrentWord,
-      history: newHistory,
-      currentGuesses: newGuesses,
-      currentGuessWord: newCurrentGuessWord,
-      currentGuessIndex: newCurrentGuessIndex,
-      currentRoundIndex: newCurrentRoundIndex,
-      roundScore: newRoundScore,
-      prevScore: newPrevScore,
-      score: newScore,
-      isGameComplete: newIsGameComplete,
-    };
+    return newGameState;
   };
 };
 

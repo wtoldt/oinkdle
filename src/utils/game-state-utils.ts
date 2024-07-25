@@ -1,3 +1,13 @@
+import { type LetterEvaluation, type Evaluation } from '@/domain';
+
+/**
+ * Returns a new array with the value at the specified index replaced with the given value.
+ *
+ * @param {Array<T>} array - The input array.
+ * @param {number} index - The index of the element to be replaced.
+ * @param {T} value - The new value to be placed at the specified index.
+ * @return {Array<T>} A new array with the value at the specified index replaced.
+ */
 const copyAndUpdateAtIndex = <T>(
   array: Array<T>,
   index: number,
@@ -6,20 +16,26 @@ const copyAndUpdateAtIndex = <T>(
   return [...array.slice(0, index), value, ...array.slice(index + 1)];
 };
 
-const scoreRound = ({
-  guessesAllowed,
-  guessesMade,
-  isLastGuessCorrect,
-}: {
-  guessesAllowed: number;
-  guessesMade: number;
-  isLastGuessCorrect: boolean;
-}) => {
-  //roundScore is total guesses per round - incorrect guesses
-  //assume every guess made so far is wrong
-  //but the latest guess, the one making us score this round, may be correct
-  //in which case we add 1
-  return guessesAllowed - guessesMade + (isLastGuessCorrect ? 1 : 0);
+/**
+ * Evaluates a letter based on its position in a given word and returns its evaluation.
+ *
+ * @param {string} letter - The letter to evaluate.
+ * @param {number} index - The index of the letter in the word.
+ * @param {string} word - The word to evaluate the letter against.
+ * @return {LetterEvaluation} An object containing the letter and its evaluation.
+ */
+const evaluateLetter = (
+  letter: string,
+  index: number,
+  word: string,
+): LetterEvaluation => {
+  let evaluation: Evaluation = 'absent';
+  if (word[index] === letter) {
+    evaluation = 'correct';
+  } else if (word.includes(letter)) {
+    evaluation = 'present';
+  }
+  return { letter, evaluation };
 };
 
-export { copyAndUpdateAtIndex, scoreRound };
+export { copyAndUpdateAtIndex, evaluateLetter };
