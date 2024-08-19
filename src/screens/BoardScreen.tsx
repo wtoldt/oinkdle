@@ -27,23 +27,27 @@ const BoardScreen = ({
   currentGuessIndex,
 }: BoardScreenProps) => {
   const { rounds, wordLength } = gameSettings;
+  //todo: this should probably go somewhere else... maybe address it when adding animations
+  const evaluateGuessIfValid = (word: string) => {
+    if (word.length === wordLength) {
+      //todo: test if word is in wordList
+      // if not, show error
+      // if yes, evaluateGuess
+      evaluateGuess(word);
+    } else {
+      //todo: play animation
+      console.log(
+        `${word} is not ${wordLength} letters long (it is ${currentGuessWord.length})`,
+      );
+    }
+  };
 
   const parseKey = (e: KeyboardEvent) => {
     const { key } = e;
     const aplhaOnly = /^[a-z]$/;
 
     if (key === 'Enter') {
-      if (currentGuessWord.length === wordLength) {
-        //todo: test if word is in wordList
-        // if not, show error
-        // if yes, evaluateGuess
-        evaluateGuess(currentGuessWord);
-      } else {
-        //todo: play animation
-        console.log(
-          `${currentGuessWord} is not ${wordLength} letters long (it is ${currentGuessWord.length})`,
-        );
-      }
+      evaluateGuessIfValid(currentGuessWord);
     } else if (key === 'Backspace') {
       removeLetter();
     } else if (aplhaOnly.test(key)) {
@@ -77,7 +81,7 @@ const BoardScreen = ({
         <Keyboard
           addLetter={addLetter}
           removeLetter={removeLetter}
-          evaluateGuess={evaluateGuess}
+          evaluateGuess={evaluateGuessIfValid}
           currentGuessWord={currentGuessWord}
           currentGuesses={currentGuesses}
         />
