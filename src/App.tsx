@@ -1,11 +1,11 @@
-import {
-  NewGameScreen,
-  BoardScreen,
-  RoundScoreScreen,
-  GameScoreScreen,
-} from '@/screens';
 import { BreakPointIdentifier } from '@/components';
 import { useGameState } from '@/hooks';
+import {
+  BoardScreen,
+  GameScoreScreen,
+  NewGameScreen,
+  RoundScoreScreen,
+} from '@/screens';
 
 function App() {
   const {

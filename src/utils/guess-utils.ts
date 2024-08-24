@@ -1,4 +1,4 @@
-import { DefaultLetterEvaluation, type Guess, type Evaluation } from '@/domain';
+import { DefaultLetterEvaluation, type Evaluation, type Guess } from '@/domain';
 
 /**
  * Turn a word into a Guess

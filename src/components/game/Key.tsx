@@ -1,6 +1,6 @@
 import * as React from 'react';
-import { cn } from '@/utils';
 import { cva, type VariantProps } from 'class-variance-authority';
+import { cn } from '@/utils';
 
 //perfect px is px-[0.85rem] sm:px-6
 //widths measured on screen: 37.09px sm:59px

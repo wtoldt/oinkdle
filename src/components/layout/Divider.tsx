@@ -1,6 +1,6 @@
 import * as React from 'react';
-import { cn } from '@/utils';
 import { cva, type VariantProps } from 'class-variance-authority';
+import { cn } from '@/utils';
 
 const dividerVariants = cva('', {
   variants: {

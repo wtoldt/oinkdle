@@ -1,4 +1,4 @@
-import { Logo, Button } from '@/components';
+import { Button, Logo } from '@/components';
 import { defaultGameSettings, type GameSettings } from '@/domain';
 
 type NewGameScreenProps = {
