@@ -1,19 +1,19 @@
 import * as React from 'react';
 import {
+  Board,
   Button,
   Divider,
+  HeartCrackIcon,
   Row,
-  Board,
   TargetIcon,
   TrophyIcon,
-  HeartCrackIcon,
 } from '@/components';
 import { type Round } from '@/domain';
 import {
-  createEvaluatedGuess,
-  cn,
   checkGuessComplete,
   checkGuessWrong,
+  cn,
+  createEvaluatedGuess,
 } from '@/utils';
 
 type RoundScoreScreenProps = {

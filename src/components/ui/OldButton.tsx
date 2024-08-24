@@ -1,7 +1,7 @@
-import { cn } from '@/utils/';
-import { Slot } from '@radix-ui/react-slot';
 import * as React from 'react';
+import { Slot } from '@radix-ui/react-slot';
 import { cva, type VariantProps } from 'class-variance-authority';
+import { cn } from '@/utils/';
 
 /**
  * This is the button generated without css variables. Keeping it around until I lift the styles into the button
@@ -37,9 +37,9 @@ const oldButtonVariants = cva(
           dark:hover:text-slate-50`,
         ],
         secondary: [
-          `bg-pig-purple-900 text-pig-purple-50 hover:bg-pig-purple-900/90
+          `border-0 bg-pig-purple-900 text-pig-purple-50 hover:bg-pig-purple-900/90
           active:bg-pig-purple-950 dark:bg-pig-purple-50 dark:text-pig-purple-900
-          dark:hover:bg-pig-purple-50/90 border-0`,
+          dark:hover:bg-pig-purple-50/90`,
         ],
         ghost: [
           `hover:bg-slate-100 hover:text-slate-900 dark:hover:bg-slate-800

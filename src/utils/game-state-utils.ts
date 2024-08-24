@@ -1,4 +1,4 @@
-import { type LetterEvaluation, type Evaluation } from '@/domain';
+import { type Evaluation, type LetterEvaluation } from '@/domain';
 
 /**
  * Returns a new array with the value at the specified index replaced with the given value.

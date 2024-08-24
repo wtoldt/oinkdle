@@ -1,7 +1,7 @@
 import * as React from 'react';
-import { GameStatusToolbar, Board, Keyboard } from '@/components';
+import { Board, GameStatusToolbar, Keyboard } from '@/components';
 import { type GameSettings, type Guess } from '@/domain';
-import { createUnfinishedGuess, copyAndUpdateAtIndex } from '@/utils';
+import { copyAndUpdateAtIndex, createUnfinishedGuess } from '@/utils';
 
 type BoardScreenProps = React.ComponentPropsWithoutRef<'div'> & {
   evaluateGuess: (word: string) => void;

@@ -1,6 +1,6 @@
 import * as React from 'react';
-import { Button, Divider, Board, MedalIcon } from '@/components';
-import { type GameSettings, type Round, defaultGameSettings } from '@/domain';
+import { Board, Button, Divider, MedalIcon } from '@/components';
+import { defaultGameSettings, type GameSettings, type Round } from '@/domain';
 
 type GameScoreScreenProps = {
   newGame: (gameSettings: GameSettings) => void;

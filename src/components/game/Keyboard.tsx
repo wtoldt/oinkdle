@@ -1,6 +1,6 @@
-import { type Guess, type Evaluation } from '@/domain';
 import { CornerDownLeft, Delete } from 'lucide-react';
 import { Key } from '@/components';
+import { type Evaluation, type Guess } from '@/domain';
 
 const topRow = ['q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p'];
 const middleRow = ['a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l'];

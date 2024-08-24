@@ -1,16 +1,16 @@
 import * as React from 'react';
 import {
-  type GameState,
-  type GameSettings,
-  type Guess,
   initialGameState,
+  type GameSettings,
+  type GameState,
+  type Guess,
 } from '@/domain';
 import {
-  getWords,
+  checkGuessCorrect,
+  copyAndUpdateAtIndex,
   createUnevaluatedGuess,
   evaluateLetter,
-  copyAndUpdateAtIndex,
-  checkGuessCorrect,
+  getWords,
 } from '@/utils';
 
 type Reducer = (gameState: GameState) => GameState;
