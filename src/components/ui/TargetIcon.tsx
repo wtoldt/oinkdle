@@ -17,4 +17,5 @@ const TargetIcon = ({ className, ...rest }: TargetIconProps) => {
   );
 };
 
+TargetIcon.displayName = 'TargetIcon';
 export { TargetIcon };

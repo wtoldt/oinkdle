@@ -1,6 +1,6 @@
 import { Logo, TargetIcon } from '@/components';
 
-export type GameStatusToolbarProps = {
+type GameStatusToolbarProps = {
   score: number;
   currentRound: number;
   totalRounds: number;
@@ -25,4 +25,5 @@ const GameStatusToolbar = ({
   );
 };
 
+GameStatusToolbar.displayName = 'GameStatusToolbar';
 export { GameStatusToolbar };

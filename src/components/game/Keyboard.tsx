@@ -96,4 +96,5 @@ const Keyboard = ({
   );
 };
 
+Keyboard.displayName = 'Keyboard';
 export { Keyboard };

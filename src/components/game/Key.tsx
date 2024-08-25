@@ -34,4 +34,5 @@ const Key = ({ children, className, evaluation, onClick }: KeyProps) => {
   );
 };
 
+Key.displayName = 'Key';
 export { Key };

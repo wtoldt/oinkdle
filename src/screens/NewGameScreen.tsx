@@ -19,4 +19,5 @@ const NewGameScreen = ({ newGame }: NewGameScreenProps) => {
   );
 };
 
+NewGameScreen.displayName = 'NewGameScreen';
 export { NewGameScreen };

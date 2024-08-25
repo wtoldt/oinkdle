@@ -14,4 +14,5 @@ const PigButton = ({
   );
 };
 
+PigButton.displayName = 'PigButton';
 export { PigButton };

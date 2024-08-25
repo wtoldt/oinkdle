@@ -132,4 +132,5 @@ const RoundScoreScreen = ({
   );
 };
 
+RoundScoreScreen.displayName = 'RoundScoreScreen';
 export { RoundScoreScreen };

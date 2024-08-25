@@ -31,4 +31,5 @@ const Board = ({ guesses, size, className }: BoardProps) => {
   );
 };
 
+Board.displayName = 'Board';
 export { Board };

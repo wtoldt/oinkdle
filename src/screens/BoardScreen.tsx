@@ -96,4 +96,5 @@ const BoardScreen = ({
   );
 };
 
+BoardScreen.displayName = 'BoardScreen';
 export { BoardScreen };

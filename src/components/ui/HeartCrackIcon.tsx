@@ -12,4 +12,5 @@ const HeartCrackIcon = ({ className, ...rest }: HeartCrackIconProps) => {
   );
 };
 
+HeartCrackIcon.displayName = 'HeartCrackIcon';
 export { HeartCrackIcon };

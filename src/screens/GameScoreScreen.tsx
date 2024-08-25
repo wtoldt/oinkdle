@@ -62,4 +62,5 @@ const GameScoreScreen = ({ newGame, score, history }: GameScoreScreenProps) => {
   );
 };
 
+GameScoreScreen.displayName = 'GameScoreScreen';
 export { GameScoreScreen };

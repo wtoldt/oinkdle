@@ -17,4 +17,5 @@ const MedalIcon = ({ className, ...rest }: MedalIconProps) => {
   );
 };
 
+MedalIcon.displayName = 'MedalIcon';
 export { MedalIcon };

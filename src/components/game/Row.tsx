@@ -21,7 +21,7 @@ type RowProps = React.ComponentPropsWithoutRef<'div'> &
     guess: Guess;
   };
 
-const Row: React.FC<RowProps> = ({ guess, className, size }) => {
+const Row = ({ guess, className, size }: RowProps) => {
   return (
     <div className={cn(rowVariants({ size }), className)}>
       {guess.map(({ letter, evaluation }, index) => (
@@ -31,4 +31,5 @@ const Row: React.FC<RowProps> = ({ guess, className, size }) => {
   );
 };
 
+Row.displayName = 'Row';
 export { Row };

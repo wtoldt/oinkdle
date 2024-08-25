@@ -82,6 +82,6 @@ const OldButton = React.forwardRef<HTMLButtonElement, OldButtonProps>(
     );
   },
 );
-OldButton.displayName = 'OldButton';
 
+OldButton.displayName = 'OldButton';
 export { OldButton };
