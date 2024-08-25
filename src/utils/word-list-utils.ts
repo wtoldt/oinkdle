@@ -1,4 +1,4 @@
-import shuffle from 'lodash.shuffle';
+import { shuffle } from 'lodash-es';
 import { wordLists } from '@/data/word-list';
 
 const getWords = (wordListId: string, count: number): string[] => {
