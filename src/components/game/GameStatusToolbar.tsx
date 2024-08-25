@@ -4,7 +4,7 @@ export type GameStatusToolbarProps = {
   score: number;
   currentRound: number;
   totalRounds: number;
-} & React.ComponentPropsWithoutRef<'div'>
+} & React.ComponentPropsWithoutRef<'div'>;
 
 const GameStatusToolbar = ({
   score,

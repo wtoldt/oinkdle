@@ -2,7 +2,7 @@ type Evaluation = 'correct' | 'present' | 'absent' | 'unevaluated';
 type LetterEvaluation = {
   letter: string;
   evaluation: Evaluation;
-}
+};
 
 class DefaultLetterEvaluation implements LetterEvaluation {
   letter = '';
@@ -15,14 +15,14 @@ type Round = {
   word: string;
   score: number;
   guesses: Guess[];
-}
+};
 
 type GameSettings = {
   rounds: number;
   wordLength: number;
   wordListId: string;
   guessesPerRound: number;
-}
+};
 
 type GameScreen = 'newGame' | 'board' | 'roundScore' | 'gameScore';
 
@@ -40,7 +40,7 @@ type GameState = {
   prevScore: number;
   score: number;
   isGameComplete: boolean;
-}
+};
 
 const initialGameState: GameState = {
   gameSettings: {
