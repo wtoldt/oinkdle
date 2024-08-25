@@ -62,14 +62,16 @@ const oldButtonVariants = cva(
   },
 );
 
-export interface OldButtonProps
-  extends React.ButtonHTMLAttributes<HTMLButtonElement>,
-    VariantProps<typeof oldButtonVariants> {
-  asChild?: boolean;
-}
+type OldButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> &
+  VariantProps<typeof oldButtonVariants> & {
+    asChild?: boolean;
+  };
 
 const OldButton = React.forwardRef<HTMLButtonElement, OldButtonProps>(
-  ({ className, variant, size, asChild = false, ...props }, ref) => {
+  (
+    { className, variant, size, asChild = false, ...props }: OldButtonProps,
+    ref,
+  ) => {
     const Comp = asChild ? Slot : 'button';
     return (
       <Comp
@@ -82,4 +84,4 @@ const OldButton = React.forwardRef<HTMLButtonElement, OldButtonProps>(
 );
 OldButton.displayName = 'OldButton';
 
-export { OldButton, oldButtonVariants };
+export { OldButton };

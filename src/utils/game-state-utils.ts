@@ -9,10 +9,10 @@ import { type Evaluation, type LetterEvaluation } from '@/domain';
  * @return {Array<T>} A new array with the value at the specified index replaced.
  */
 const copyAndUpdateAtIndex = <T>(
-  array: Array<T>,
+  array: T[],
   index: number,
   value: T,
-): Array<T> => {
+): T[] => {
   return [...array.slice(0, index), value, ...array.slice(index + 1)];
 };
 
