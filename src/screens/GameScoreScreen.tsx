@@ -1,6 +1,9 @@
 import * as React from 'react';
-import { Board, Button, Divider, MedalIcon } from '@/components';
-import { defaultGameSettings, type GameSettings, type Round } from '@/domain';
+import { Board } from '@/components/game/Board';
+import { Divider } from '@/components/layout/Divider';
+import { Button } from '@/components/ui/Button';
+import { MedalIcon } from '@/components/ui/MedalIcon';
+import { defaultGameSettings, GameSettings, Round } from '@/domain/game';
 
 type GameScoreScreenProps = {
   newGame: (gameSettings: GameSettings) => void;
@@ -62,4 +65,5 @@ const GameScoreScreen = ({ newGame, score, history }: GameScoreScreenProps) => {
   );
 };
 
+GameScoreScreen.displayName = 'GameScoreScreen';
 export { GameScoreScreen };

@@ -1,5 +1,6 @@
-import { Button, Logo } from '@/components';
-import { defaultGameSettings, type GameSettings } from '@/domain';
+import { Logo } from '@/components/layout/Logo';
+import { Button } from '@/components/ui/Button';
+import { defaultGameSettings, type GameSettings } from '@/domain/game';
 
 type NewGameScreenProps = {
   newGame: (gameSettings: GameSettings) => void;
@@ -19,4 +20,5 @@ const NewGameScreen = ({ newGame }: NewGameScreenProps) => {
   );
 };
 
+NewGameScreen.displayName = 'NewGameScreen';
 export { NewGameScreen };

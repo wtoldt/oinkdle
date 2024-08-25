@@ -1,6 +1,6 @@
 import { CornerDownLeft, Delete } from 'lucide-react';
-import { Key } from '@/components';
-import { type Evaluation, type Guess } from '@/domain';
+import { Key } from '@/components/game/Key';
+import { type Evaluation, type Guess } from '@/domain/game';
 
 const topRow = ['q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p'];
 const middleRow = ['a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l'];
@@ -96,4 +96,5 @@ const Keyboard = ({
   );
 };
 
+Keyboard.displayName = 'Keyboard';
 export { Keyboard };

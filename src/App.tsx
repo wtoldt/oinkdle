@@ -1,11 +1,9 @@
-import { BreakPointIdentifier } from '@/components';
-import { useGameState } from '@/hooks';
-import {
-  BoardScreen,
-  GameScoreScreen,
-  NewGameScreen,
-  RoundScoreScreen,
-} from '@/screens';
+import { BreakPointIdentifier } from '@/components/layout/BreakPointIdentifier';
+import { useGameState } from '@/hooks/useGameState';
+import { BoardScreen } from '@/screens/BoardScreen';
+import { GameScoreScreen } from '@/screens/GameScoreScreen';
+import { NewGameScreen } from '@/screens/NewGameScreen';
+import { RoundScoreScreen } from '@/screens/RoundScoreScreen';
 
 function App() {
   const {

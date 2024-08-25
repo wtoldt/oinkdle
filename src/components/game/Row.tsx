@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { cva, type VariantProps } from 'class-variance-authority';
-import { Tile } from '@/components';
-import { Guess } from '@/domain';
-import { cn } from '@/utils';
+import { Tile } from '@/components/game/Tile';
+import { Guess } from '@/domain/game';
+import { cn } from '@/utils/cn';
 
 const rowVariants = cva('mx-auto flex', {
   variants: {
@@ -21,7 +21,7 @@ type RowProps = React.ComponentPropsWithoutRef<'div'> &
     guess: Guess;
   };
 
-const Row: React.FC<RowProps> = ({ guess, className, size }) => {
+const Row = ({ guess, className, size }: RowProps) => {
   return (
     <div className={cn(rowVariants({ size }), className)}>
       {guess.map(({ letter, evaluation }, index) => (
@@ -31,4 +31,5 @@ const Row: React.FC<RowProps> = ({ guess, className, size }) => {
   );
 };
 
+Row.displayName = 'Row';
 export { Row };

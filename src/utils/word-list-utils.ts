@@ -1,9 +1,14 @@
-import shuffle from 'lodash.shuffle';
+import { shuffle } from 'lodash-es';
 import { wordLists } from '@/data/word-list';
 
 const getWords = (wordListId: string, count: number): string[] => {
-  const shuffledWords = shuffle(wordLists.get(wordListId)!.wordList);
-  return shuffledWords.slice(0, count);
+  const wordList = wordLists.get(wordListId);
+  if (wordList) {
+    const shuffledWords = shuffle(wordList.wordList);
+    return shuffledWords.slice(0, count);
+  } else {
+    throw new Error(`Word list ${wordListId} not found`);
+  }
 };
 
 export { getWords };

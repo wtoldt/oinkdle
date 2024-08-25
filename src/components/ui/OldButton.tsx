@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Slot } from '@radix-ui/react-slot';
 import { cva, type VariantProps } from 'class-variance-authority';
-import { cn } from '@/utils/';
+import { cn } from '@/utils/cn';
 
 /**
  * This is the button generated without css variables. Keeping it around until I lift the styles into the button
@@ -62,14 +62,16 @@ const oldButtonVariants = cva(
   },
 );
 
-export interface OldButtonProps
-  extends React.ButtonHTMLAttributes<HTMLButtonElement>,
-    VariantProps<typeof oldButtonVariants> {
-  asChild?: boolean;
-}
+type OldButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> &
+  VariantProps<typeof oldButtonVariants> & {
+    asChild?: boolean;
+  };
 
 const OldButton = React.forwardRef<HTMLButtonElement, OldButtonProps>(
-  ({ className, variant, size, asChild = false, ...props }, ref) => {
+  (
+    { className, variant, size, asChild = false, ...props }: OldButtonProps,
+    ref,
+  ) => {
     const Comp = asChild ? Slot : 'button';
     return (
       <Comp
@@ -80,6 +82,6 @@ const OldButton = React.forwardRef<HTMLButtonElement, OldButtonProps>(
     );
   },
 );
-OldButton.displayName = 'OldButton';
 
-export { OldButton, oldButtonVariants };
+OldButton.displayName = 'OldButton';
+export { OldButton };

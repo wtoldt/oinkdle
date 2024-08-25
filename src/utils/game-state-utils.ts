@@ -1,4 +1,4 @@
-import { type Evaluation, type LetterEvaluation } from '@/domain';
+import { type Evaluation, type LetterEvaluation } from '@/domain/game';
 
 /**
  * Returns a new array with the value at the specified index replaced with the given value.
@@ -8,11 +8,7 @@ import { type Evaluation, type LetterEvaluation } from '@/domain';
  * @param {T} value - The new value to be placed at the specified index.
  * @return {Array<T>} A new array with the value at the specified index replaced.
  */
-const copyAndUpdateAtIndex = <T>(
-  array: Array<T>,
-  index: number,
-  value: T,
-): Array<T> => {
+const copyAndUpdateAtIndex = <T>(array: T[], index: number, value: T): T[] => {
   return [...array.slice(0, index), value, ...array.slice(index + 1)];
 };
 

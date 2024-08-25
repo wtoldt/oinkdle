@@ -4,17 +4,13 @@ import {
   type GameSettings,
   type GameState,
   type Guess,
-} from '@/domain';
-import {
-  checkGuessCorrect,
-  copyAndUpdateAtIndex,
-  createUnevaluatedGuess,
-  evaluateLetter,
-  getWords,
-} from '@/utils';
+} from '@/domain/game';
+import { copyAndUpdateAtIndex, evaluateLetter } from '@/utils/game-state-utils';
+import { checkGuessCorrect, createUnevaluatedGuess } from '@/utils/guess-utils';
+import { getWords } from '@/utils/word-list-utils';
 
 type Reducer = (gameState: GameState) => GameState;
-type ReducerFactory = (input?: any) => Reducer;
+type ReducerFactory = (input?: any) => Reducer; // eslint-disable-line @typescript-eslint/no-explicit-any
 
 const goToRoundScoreScreen: Reducer = (gameState: GameState) => {
   return {
@@ -94,9 +90,9 @@ const resetCurrentGuesses: Reducer = (gameState: GameState) => {
   //reset guesses by filling with unevaluated guesses
   return {
     ...gameState,
-    currentGuesses: new Array(gameState.gameSettings.guessesPerRound).fill(
-      createUnevaluatedGuess(gameState.gameSettings.wordLength),
-    ),
+    currentGuesses: new Array<Guess>(
+      gameState.gameSettings.guessesPerRound,
+    ).fill(createUnevaluatedGuess(gameState.gameSettings.wordLength)),
   };
 };
 
@@ -140,7 +136,7 @@ const newGame: ReducerFactory = (gameSettings: GameSettings) => {
     const words = getWords(gameSettings.wordListId, gameSettings.rounds);
 
     //fill currentGuesses with unevaluated guesses
-    const currentGuesses = new Array(gameSettings.guessesPerRound).fill(
+    const currentGuesses = new Array<Guess>(gameSettings.guessesPerRound).fill(
       createUnevaluatedGuess(gameSettings.wordLength),
     );
 
@@ -211,13 +207,13 @@ const evaluateGuess: ReducerFactory = (word: string) => {
     const isGuessCorrect = checkGuessCorrect(evaluatedGuess);
 
     //update guesses
-    let newGuesses = copyAndUpdateAtIndex(
+    const newGuesses = copyAndUpdateAtIndex(
       currentGuesses,
       currentGuessIndex,
       evaluatedGuess,
     ) as Guess[];
     const newCurrentGuessWord = '';
-    let newCurrentGuessIndex = currentGuessIndex + 1;
+    const newCurrentGuessIndex = currentGuessIndex + 1;
 
     let newGameState: GameState = {
       ...gameState,

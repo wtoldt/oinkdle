@@ -1,8 +1,8 @@
 type Evaluation = 'correct' | 'present' | 'absent' | 'unevaluated';
-interface LetterEvaluation {
+type LetterEvaluation = {
   letter: string;
   evaluation: Evaluation;
-}
+};
 
 class DefaultLetterEvaluation implements LetterEvaluation {
   letter = '';
@@ -11,22 +11,22 @@ class DefaultLetterEvaluation implements LetterEvaluation {
 
 type Guess = LetterEvaluation[];
 
-interface Round {
+type Round = {
   word: string;
   score: number;
   guesses: Guess[];
-}
+};
 
-interface GameSettings {
+type GameSettings = {
   rounds: number;
   wordLength: number;
   wordListId: string;
   guessesPerRound: number;
-}
+};
 
 type GameScreen = 'newGame' | 'board' | 'roundScore' | 'gameScore';
 
-interface GameState {
+type GameState = {
   gameSettings: GameSettings;
   gameScreen: GameScreen;
   words: string[];
@@ -40,7 +40,7 @@ interface GameState {
   prevScore: number;
   score: number;
   isGameComplete: boolean;
-}
+};
 
 const initialGameState: GameState = {
   gameSettings: {

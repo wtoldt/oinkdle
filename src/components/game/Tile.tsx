@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { cva, type VariantProps } from 'class-variance-authority';
-import { type LetterEvaluation } from '@/domain';
-import { cn } from '@/utils';
+import { type LetterEvaluation } from '@/domain/game';
+import { cn } from '@/utils/cn';
 
 const tileVariants = cva('flex items-center justify-center', {
   variants: {
@@ -29,7 +29,7 @@ type TileProps = React.ComponentPropsWithoutRef<'div'> &
   VariantProps<typeof tileVariants> &
   LetterEvaluation;
 
-const Tile: React.FC<TileProps> = ({ letter, evaluation, size }) => {
+const Tile = ({ letter, evaluation, size }: TileProps) => {
   return (
     <div className={cn(tileVariants({ evaluation, size }))}>
       {size === 'tiny' ? '' : letter}
@@ -37,4 +37,5 @@ const Tile: React.FC<TileProps> = ({ letter, evaluation, size }) => {
   );
 };
 
+Tile.displayName = 'Tile';
 export { Tile };

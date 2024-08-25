@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Target } from 'lucide-react';
-import { cn } from '@/utils';
+import { cn } from '@/utils/cn';
 
 type TargetIconProps = React.SVGProps<SVGSVGElement>;
 const TargetIcon = ({ className, ...rest }: TargetIconProps) => {
@@ -17,4 +17,5 @@ const TargetIcon = ({ className, ...rest }: TargetIconProps) => {
   );
 };
 
+TargetIcon.displayName = 'TargetIcon';
 export { TargetIcon };

@@ -1,4 +1,9 @@
-import { DefaultLetterEvaluation, type Evaluation, type Guess } from '@/domain';
+import {
+  DefaultLetterEvaluation,
+  LetterEvaluation,
+  type Evaluation,
+  type Guess,
+} from '@/domain/game';
 
 /**
  * Turn a word into a Guess
@@ -8,10 +13,10 @@ import { DefaultLetterEvaluation, type Evaluation, type Guess } from '@/domain';
  * @returns Guess with letters of the word (unevaluated) and DefaultLetterEvaluation for the rest
  */
 const createUnfinishedGuess = (word: string, wordLength: number): Guess => {
-  return new Array(wordLength)
+  return new Array<LetterEvaluation>(wordLength)
     .fill(new DefaultLetterEvaluation())
     .map(({ letter, evaluation }, index) => ({
-      letter: word[index] || letter,
+      letter: word[index] ?? letter,
       evaluation,
     }));
 };
@@ -34,7 +39,9 @@ const createEvaluatedGuess = (word: string, evaluation: Evaluation): Guess => {
  * @return {Guess} An array of DefaultLetterEvaluation objects filled to the given length.
  */
 const createUnevaluatedGuess = (length: number): Guess => {
-  return new Array(length).fill(new DefaultLetterEvaluation());
+  return new Array<LetterEvaluation>(length).fill(
+    new DefaultLetterEvaluation(),
+  );
 };
 
 /**

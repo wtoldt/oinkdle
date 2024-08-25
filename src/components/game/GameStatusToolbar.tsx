@@ -1,11 +1,11 @@
-import { Logo, TargetIcon } from '@/components';
+import { Logo } from '@/components/layout/Logo';
+import { TargetIcon } from '@/components/ui/TargetIcon';
 
-export interface GameStatusToolbarProps
-  extends React.ComponentPropsWithoutRef<'div'> {
+type GameStatusToolbarProps = {
   score: number;
   currentRound: number;
   totalRounds: number;
-}
+} & React.ComponentPropsWithoutRef<'div'>;
 
 const GameStatusToolbar = ({
   score,
@@ -26,4 +26,5 @@ const GameStatusToolbar = ({
   );
 };
 
+GameStatusToolbar.displayName = 'GameStatusToolbar';
 export { GameStatusToolbar };
