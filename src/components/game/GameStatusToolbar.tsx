@@ -1,4 +1,5 @@
-import { Logo, TargetIcon } from '@/components';
+import { Logo } from '@/components/layout/Logo';
+import { TargetIcon } from '@/components/ui/TargetIcon';
 
 type GameStatusToolbarProps = {
   score: number;

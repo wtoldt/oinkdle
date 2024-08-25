@@ -1,20 +1,18 @@
 import * as React from 'react';
-import {
-  Board,
-  Button,
-  Divider,
-  HeartCrackIcon,
-  Row,
-  TargetIcon,
-  TrophyIcon,
-} from '@/components';
-import { type Round } from '@/domain';
+import { Board } from '@/components/game/Board';
+import { Row } from '@/components/game/Row';
+import { Divider } from '@/components/layout/Divider';
+import { Button } from '@/components/ui/Button';
+import { HeartCrackIcon } from '@/components/ui/HeartCrackIcon';
+import { TargetIcon } from '@/components/ui/TargetIcon';
+import { TrophyIcon } from '@/components/ui/TrophyIcon';
+import { type Round } from '@/domain/game';
+import { cn } from '@/utils/cn';
 import {
   checkGuessComplete,
   checkGuessWrong,
-  cn,
   createEvaluatedGuess,
-} from '@/utils';
+} from '@/utils/guess-utils';
 
 type RoundScoreScreenProps = {
   nextRound: () => void;

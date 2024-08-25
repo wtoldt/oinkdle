@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { cva, type VariantProps } from 'class-variance-authority';
-import { type LetterEvaluation } from '@/domain';
-import { cn } from '@/utils';
+import { type LetterEvaluation } from '@/domain/game';
+import { cn } from '@/utils/cn';
 
 const tileVariants = cva('flex items-center justify-center', {
   variants: {

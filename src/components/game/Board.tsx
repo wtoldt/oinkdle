@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { cva, type VariantProps } from 'class-variance-authority';
-import { Row } from '@/components';
-import { Guess } from '@/domain';
-import { cn } from '@/utils';
+import { Row } from '@/components/game/Row';
+import { Guess } from '@/domain/game';
+import { cn } from '@/utils/cn';
 
 const boardVariants = cva('flex flex-col justify-center', {
   variants: {

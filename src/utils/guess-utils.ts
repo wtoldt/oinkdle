@@ -3,7 +3,7 @@ import {
   LetterEvaluation,
   type Evaluation,
   type Guess,
-} from '@/domain';
+} from '@/domain/game';
 
 /**
  * Turn a word into a Guess

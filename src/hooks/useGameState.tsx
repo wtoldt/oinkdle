@@ -4,14 +4,10 @@ import {
   type GameSettings,
   type GameState,
   type Guess,
-} from '@/domain';
-import {
-  checkGuessCorrect,
-  copyAndUpdateAtIndex,
-  createUnevaluatedGuess,
-  evaluateLetter,
-  getWords,
-} from '@/utils';
+} from '@/domain/game';
+import { copyAndUpdateAtIndex, evaluateLetter } from '@/utils/game-state-utils';
+import { checkGuessCorrect, createUnevaluatedGuess } from '@/utils/guess-utils';
+import { getWords } from '@/utils/word-list-utils';
 
 type Reducer = (gameState: GameState) => GameState;
 type ReducerFactory = (input?: any) => Reducer; // eslint-disable-line @typescript-eslint/no-explicit-any

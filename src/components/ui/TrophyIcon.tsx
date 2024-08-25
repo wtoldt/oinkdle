@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Trophy } from 'lucide-react';
-import { cn } from '@/utils';
+import { cn } from '@/utils/cn';
 
 type TrophyIconProps = React.SVGProps<SVGSVGElement>;
 const TrophyIcon = ({ className, ...rest }: TrophyIconProps) => {

@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Slot } from '@radix-ui/react-slot';
 import { cva, type VariantProps } from 'class-variance-authority';
-import { cn } from '@/utils/';
+import { cn } from '@/utils/cn';
 
 /**
  * This is the button generated without css variables. Keeping it around until I lift the styles into the button

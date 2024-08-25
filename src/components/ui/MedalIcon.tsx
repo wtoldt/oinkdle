@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Medal } from 'lucide-react';
-import { cn } from '@/utils';
+import { cn } from '@/utils/cn';
 
 type MedalIconProps = React.SVGProps<SVGSVGElement>;
 const MedalIcon = ({ className, ...rest }: MedalIconProps) => {

@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { HeartCrack } from 'lucide-react';
-import { cn } from '@/utils';
+import { cn } from '@/utils/cn';
 
 type HeartCrackIconProps = React.SVGProps<SVGSVGElement>;
 const HeartCrackIcon = ({ className, ...rest }: HeartCrackIconProps) => {

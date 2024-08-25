@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { cva, type VariantProps } from 'class-variance-authority';
-import { Tile } from '@/components';
-import { Guess } from '@/domain';
-import { cn } from '@/utils';
+import { Tile } from '@/components/game/Tile';
+import { Guess } from '@/domain/game';
+import { cn } from '@/utils/cn';
 
 const rowVariants = cva('mx-auto flex', {
   variants: {

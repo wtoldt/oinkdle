@@ -1,7 +1,10 @@
 import * as React from 'react';
-import { Board, GameStatusToolbar, Keyboard } from '@/components';
-import { type GameSettings, type Guess } from '@/domain';
-import { copyAndUpdateAtIndex, createUnfinishedGuess } from '@/utils';
+import { Board } from '@/components/game/Board';
+import { GameStatusToolbar } from '@/components/game/GameStatusToolbar';
+import { Keyboard } from '@/components/game/Keyboard';
+import { type GameSettings, type Guess } from '@/domain/game';
+import { copyAndUpdateAtIndex } from '@/utils/game-state-utils';
+import { createUnfinishedGuess } from '@/utils/guess-utils';
 
 type BoardScreenProps = React.ComponentPropsWithoutRef<'div'> & {
   evaluateGuess: (word: string) => void;
