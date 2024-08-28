@@ -31,7 +31,9 @@ type TileProps = React.ComponentPropsWithoutRef<'div'> &
 
 const Tile = ({ letter, evaluation, size }: TileProps) => {
   return (
-    <div className={cn(tileVariants({ evaluation, size }))}>
+    <div
+      className={cn(tileVariants({ evaluation, size }), { unfilled: !letter })}
+    >
       {size === 'tiny' ? '' : letter}
     </div>
   );

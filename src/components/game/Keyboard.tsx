@@ -7,20 +7,11 @@ const middleRow = ['a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l'];
 const bottomRow = ['z', 'x', 'c', 'v', 'b', 'n', 'm'];
 
 type KeyboardProps = {
-  addLetter: (letter: string) => void;
-  removeLetter: () => void;
-  evaluateGuess: (word: string) => void;
-  currentGuessWord: string;
+  parseKey: (e: KeyboardEvent | { key: string }) => void;
   currentGuesses: Guess[];
 };
 
-const Keyboard = ({
-  addLetter,
-  removeLetter,
-  evaluateGuess,
-  currentGuessWord,
-  currentGuesses,
-}: KeyboardProps) => {
+const Keyboard = ({ parseKey, currentGuesses }: KeyboardProps) => {
   const evaluationRanking = ['unevaluated', 'absent', 'present', 'correct'];
   const letterEvaluationLookup = 'abcdefghijklmnopqrstuvwxyz'
     .split('')
@@ -53,7 +44,7 @@ const Keyboard = ({
           <Key
             key={letter}
             evaluation={getEvaluation(letter)}
-            onClick={() => addLetter(letter)}
+            onClick={() => parseKey({ key: letter })}
           >
             {letter}
           </Key>
@@ -65,7 +56,7 @@ const Keyboard = ({
           <Key
             key={letter}
             evaluation={getEvaluation(letter)}
-            onClick={() => addLetter(letter)}
+            onClick={() => parseKey({ key: letter })}
           >
             {letter}
           </Key>
@@ -75,7 +66,7 @@ const Keyboard = ({
       <div className={rowStyle}>
         <Key
           className="w-14 sm:w-20"
-          onClick={() => evaluateGuess(currentGuessWord)}
+          onClick={() => parseKey({ key: 'Enter' })}
         >
           <CornerDownLeft /> {/*Enter*/}
         </Key>
@@ -83,12 +74,15 @@ const Keyboard = ({
           <Key
             key={letter}
             evaluation={getEvaluation(letter)}
-            onClick={() => addLetter(letter)}
+            onClick={() => parseKey({ key: letter })}
           >
             {letter}
           </Key>
         ))}
-        <Key className="w-14 sm:w-20" onClick={removeLetter}>
+        <Key
+          className="w-14 sm:w-20"
+          onClick={() => parseKey({ key: 'Backspace' })}
+        >
           <Delete />
         </Key>
       </div>

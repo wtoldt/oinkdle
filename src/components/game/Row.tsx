@@ -11,6 +11,9 @@ const rowVariants = cva('mx-auto flex', {
       small: 'board-gap-small',
       tiny: 'board-gap-tiny',
     },
+    current: {
+      true: 'current',
+    },
   },
   defaultVariants: {
     size: 'big',
@@ -21,9 +24,9 @@ type RowProps = React.ComponentPropsWithoutRef<'div'> &
     guess: Guess;
   };
 
-const Row = ({ guess, className, size }: RowProps) => {
+const Row = ({ guess, className, size, current }: RowProps) => {
   return (
-    <div className={cn(rowVariants({ size }), className)}>
+    <div className={cn(rowVariants({ size, current }), className)}>
       {guess.map(({ letter, evaluation }, index) => (
         <Tile key={index} letter={letter} evaluation={evaluation} size={size} />
       ))}
