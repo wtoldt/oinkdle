@@ -88,7 +88,7 @@ const BoardScreen = ({
         guessesPerRound={guessesPerRound}
         wordLength={wordLength}
         onAnimationEnd={handleAnimationEnd}
-        className={cn('animate-evaluation mb-3', {
+        className={cn('animate mb-3', {
           'shake-unfilled': animateInvalidGuessLength,
         })}
       />
