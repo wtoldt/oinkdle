@@ -19,24 +19,30 @@ const boardVariants = cva('flex flex-col justify-center', {
 type BoardProps = React.ComponentPropsWithoutRef<'div'> &
   VariantProps<typeof boardVariants> & {
     guesses: Guess[];
-    currentGuessIndex?: number;
+    guessesPerRound: number;
+    wordLength: number;
   };
 
 const Board = ({
   guesses,
+  guessesPerRound,
+  wordLength,
   size,
   className,
-  currentGuessIndex,
   ...props
 }: BoardProps) => {
+  const emptyRows: Guess[] = new Array<Guess>(
+    guessesPerRound - guesses.length,
+  ).fill([]);
   return (
     <div className={cn(boardVariants({ size }), className)} {...props}>
-      {guesses.map((guess, index) => (
+      {[...guesses, ...emptyRows].map((guess, index) => (
         <Row
           key={index}
           guess={guess}
+          wordLength={wordLength}
           size={size}
-          current={index === currentGuessIndex}
+          current={guesses.length === index + 1}
         />
       ))}
     </div>

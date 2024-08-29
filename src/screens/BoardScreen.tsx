@@ -4,19 +4,15 @@ import { GameStatusToolbar } from '@/components/game/GameStatusToolbar';
 import { Keyboard } from '@/components/game/Keyboard';
 import { type GameSettings, type Guess } from '@/domain/game';
 import { cn } from '@/utils/cn';
-import { copyAndUpdateAtIndex } from '@/utils/game-state-utils';
-import { createUnfinishedGuess } from '@/utils/guess-utils';
 
 type BoardScreenProps = React.ComponentPropsWithoutRef<'div'> & {
-  evaluateGuess: (word: string) => void;
+  evaluateGuess: () => void;
   addLetter: (letter: string) => void;
   removeLetter: () => void;
   gameSettings: GameSettings;
   score: number;
   currentRoundIndex: number;
-  currentGuessWord: string;
   currentGuesses: Guess[];
-  currentGuessIndex: number;
 };
 
 const BoardScreen = ({
@@ -26,12 +22,12 @@ const BoardScreen = ({
   gameSettings,
   score,
   currentRoundIndex,
-  currentGuessWord,
   currentGuesses,
-  currentGuessIndex,
 }: BoardScreenProps) => {
   const [animateInvalidGuessLength, setAnimateInvalidGuessLength] =
     React.useState(false);
+
+  const currentGuess = currentGuesses[currentGuesses.length - 1];
 
   const handleAnimationEnd = (e: React.AnimationEvent<HTMLDivElement>) => {
     if (e.animationName === 'headShake') {
@@ -39,11 +35,11 @@ const BoardScreen = ({
     }
   };
 
-  const { rounds, wordLength } = gameSettings;
+  const { rounds, wordLength, guessesPerRound } = gameSettings;
   const evaluateGuessIfValid = React.useCallback(
-    (word: string) => {
-      if (word.length === wordLength) {
-        evaluateGuess(word);
+    (guess: Guess) => {
+      if (guess.length === wordLength) {
+        evaluateGuess();
       } else {
         setAnimateInvalidGuessLength(true);
       }
@@ -65,22 +61,20 @@ const BoardScreen = ({
       const aplhaOnly = /^[a-z]$/;
 
       if (key === 'Enter') {
-        evaluateGuessIfValid(currentGuessWord);
+        evaluateGuessIfValid(currentGuess);
       } else if (key === 'Backspace') {
         removeLetter();
       } else if (aplhaOnly.test(key)) {
         addLetter(key);
       }
     },
-    [evaluateGuessIfValid, currentGuessWord, removeLetter, addLetter],
+    [evaluateGuessIfValid, currentGuess, removeLetter, addLetter],
   );
 
   React.useEffect(() => {
     document.addEventListener('keydown', parseKey);
     return () => document.removeEventListener('keydown', parseKey);
   }, [parseKey]);
-
-  const currentGuess = createUnfinishedGuess(currentGuessWord, wordLength);
 
   return (
     <div className="container flex h-screen flex-col justify-center px-4">
@@ -90,12 +84,9 @@ const BoardScreen = ({
         totalRounds={rounds}
       />
       <Board
-        guesses={copyAndUpdateAtIndex(
-          currentGuesses,
-          currentGuessIndex,
-          currentGuess,
-        )}
-        currentGuessIndex={currentGuessIndex}
+        guesses={currentGuesses}
+        guessesPerRound={guessesPerRound}
+        wordLength={wordLength}
         onAnimationEnd={handleAnimationEnd}
         className={cn('animate-evaluation mb-3', {
           'shake-unfilled': animateInvalidGuessLength,

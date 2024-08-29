@@ -3,14 +3,24 @@ import { Board } from '@/components/game/Board';
 import { Divider } from '@/components/layout/Divider';
 import { Button } from '@/components/ui/Button';
 import { MedalIcon } from '@/components/ui/MedalIcon';
-import { defaultGameSettings, GameSettings, Round } from '@/domain/game';
+import {
+  defaultGameSettings,
+  type GameSettings,
+  type Round,
+} from '@/domain/game';
 
 type GameScoreScreenProps = {
   newGame: (gameSettings: GameSettings) => void;
   score: number;
   history: Round[];
+  gameSettings: GameSettings;
 };
-const GameScoreScreen = ({ newGame, score, history }: GameScoreScreenProps) => {
+const GameScoreScreen = ({
+  newGame,
+  score,
+  history,
+  gameSettings,
+}: GameScoreScreenProps) => {
   //set up autofocus delay for button
   const buttonRef = React.useRef<HTMLButtonElement>(null);
   React.useEffect(() => {
@@ -40,6 +50,8 @@ const GameScoreScreen = ({ newGame, score, history }: GameScoreScreenProps) => {
           <div className="flex w-full items-center justify-around" key={index}>
             <Board
               guesses={round.guesses}
+              guessesPerRound={gameSettings.guessesPerRound}
+              wordLength={gameSettings.wordLength}
               size="tiny"
               className="flex-none rounded bg-secondary p-1"
             />

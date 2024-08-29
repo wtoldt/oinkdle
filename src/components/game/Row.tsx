@@ -1,7 +1,11 @@
 import * as React from 'react';
 import { cva, type VariantProps } from 'class-variance-authority';
 import { Tile } from '@/components/game/Tile';
-import { Guess } from '@/domain/game';
+import {
+  DefaultLetterEvaluation,
+  type Guess,
+  type LetterEvaluation,
+} from '@/domain/game';
 import { cn } from '@/utils/cn';
 
 const rowVariants = cva('mx-auto flex', {
@@ -22,12 +26,16 @@ const rowVariants = cva('mx-auto flex', {
 type RowProps = React.ComponentPropsWithoutRef<'div'> &
   VariantProps<typeof rowVariants> & {
     guess: Guess;
+    wordLength: number;
   };
 
-const Row = ({ guess, className, size, current }: RowProps) => {
+const Row = ({ guess, className, size, current, wordLength }: RowProps) => {
+  const emptyTiles: Guess = new Array<LetterEvaluation>(
+    wordLength - guess.length,
+  ).fill(new DefaultLetterEvaluation());
   return (
     <div className={cn(rowVariants({ size, current }), className)}>
-      {guess.map(({ letter, evaluation }, index) => (
+      {[...guess, ...emptyTiles].map(({ letter, evaluation }, index) => (
         <Tile
           key={index}
           letter={letter}

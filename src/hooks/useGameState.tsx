@@ -5,8 +5,8 @@ import {
   type GameState,
   type Guess,
 } from '@/domain/game';
-import { copyAndUpdateAtIndex, evaluateLetter } from '@/utils/game-state-utils';
-import { checkGuessCorrect, createUnevaluatedGuess } from '@/utils/guess-utils';
+import { evaluateLetter } from '@/utils/game-state-utils';
+import { checkGuessCorrect } from '@/utils/guess-utils';
 import { getWords } from '@/utils/word-list-utils';
 
 type Reducer = (gameState: GameState) => GameState;
@@ -20,19 +20,16 @@ const goToRoundScoreScreen: Reducer = (gameState: GameState) => {
 };
 
 const scoreRound: Reducer = (gameState: GameState) => {
-  const {
-    gameSettings,
-    currentGuesses,
-    currentGuessIndex: guessesMade,
-  } = gameState;
+  const { gameSettings, currentGuesses } = gameState;
   const { guessesPerRound: guessesAllowed } = gameSettings;
   const isLastGuessCorrect = checkGuessCorrect(
     currentGuesses[currentGuesses.length - 1],
   );
-  //roundScore is total guesses per round - incorrect guesses
+  //roundScore is (total guesses per round - incorrect guesses)
   //assume every guess made so far is wrong
   //but the latest guess, the one making us score this round, may be correct
   //in which case we add 1
+  const guessesMade = currentGuesses.length;
   const newRoundScore =
     guessesAllowed - guessesMade + (isLastGuessCorrect ? 1 : 0);
 
@@ -65,13 +62,6 @@ const incrementCurrentRoundIndex: Reducer = (gameState: GameState) => {
   };
 };
 
-const resetCurrentGuessIndex: Reducer = (gameState: GameState) => {
-  return {
-    ...gameState,
-    currentGuessIndex: 0,
-  };
-};
-
 const setCurrentWordToNextWord: Reducer = (gameState: GameState) => {
   const { words, currentWord } = gameState;
   const currentWordIndex = words.indexOf(currentWord);
@@ -87,12 +77,10 @@ const setCurrentWordToNextWord: Reducer = (gameState: GameState) => {
 };
 
 const resetCurrentGuesses: Reducer = (gameState: GameState) => {
-  //reset guesses by filling with unevaluated guesses
+  //reset guesses by setting currentGuesses to an array with one guess which has no letters
   return {
     ...gameState,
-    currentGuesses: new Array<Guess>(
-      gameState.gameSettings.guessesPerRound,
-    ).fill(createUnevaluatedGuess(gameState.gameSettings.wordLength)),
+    currentGuesses: [[] as Guess],
   };
 };
 
@@ -119,7 +107,6 @@ const endRound: Reducer = (gameState: GameState) => {
     scoreRound,
     updateHistory,
     incrementCurrentRoundIndex,
-    resetCurrentGuessIndex,
     setCurrentWordToNextWord,
     resetCurrentGuesses,
     updateGameScores,
@@ -135,20 +122,13 @@ const newGame: ReducerFactory = (gameSettings: GameSettings) => {
     //shuffle wordlist and pick gameSettings.wordLength words
     const words = getWords(gameSettings.wordListId, gameSettings.rounds);
 
-    //fill currentGuesses with unevaluated guesses
-    const currentGuesses = new Array<Guess>(gameSettings.guessesPerRound).fill(
-      createUnevaluatedGuess(gameSettings.wordLength),
-    );
-
     return {
       gameSettings,
       gameScreen: 'board',
       words,
       currentWord: words[0],
       history: [],
-      currentGuesses,
-      currentGuessWord: '',
-      currentGuessIndex: 0,
+      currentGuesses: [[] as Guess], //start with one guess, which has no letters
       currentRoundIndex: 0,
       roundScore: 0,
       prevScore: 0,
@@ -160,78 +140,81 @@ const newGame: ReducerFactory = (gameSettings: GameSettings) => {
 
 const addLetter: ReducerFactory = (letter: string) => {
   return (gameState: GameState) => {
-    const { gameSettings, currentGuessWord } = gameState;
+    const { gameSettings, currentGuesses } = gameState;
     const { wordLength } = gameSettings;
-    let newCurrentGuessWord = currentGuessWord;
 
-    //add letter to currentGuessWord
-    if (currentGuessWord.length < wordLength) {
-      newCurrentGuessWord = currentGuessWord + letter;
+    const newCurrentGuess = [...currentGuesses[currentGuesses.length - 1]];
+    if (newCurrentGuess.length >= wordLength) {
+      //we've reached the end of the current guess, do nothing
+      return gameState;
+    } else {
+      //add letter to currentGuess
+      newCurrentGuess.push({ letter, evaluation: 'unevaluated' });
+      const newCurrentGuesses = [...currentGuesses];
+      newCurrentGuesses[newCurrentGuesses.length - 1] = newCurrentGuess;
+      return {
+        ...gameState,
+        currentGuesses: newCurrentGuesses,
+      };
     }
-    return {
-      ...gameState,
-      currentGuessWord: newCurrentGuessWord,
-    };
   };
 };
 
 const removeLetter: ReducerFactory = () => {
   return (gameState: GameState) => {
-    const { currentGuessWord } = gameState;
-    let newCurrentGuessWord = currentGuessWord;
+    const { currentGuesses } = gameState;
 
-    //remove letter from currentGuessWord
-    if (currentGuessWord.length > 0) {
-      newCurrentGuessWord = currentGuessWord.slice(0, -1);
+    const newCurrentGuess = [...currentGuesses[currentGuesses.length - 1]];
+    if (newCurrentGuess.length === 0) {
+      //No letters to remove, do nothing
+      return gameState;
+    } else {
+      //remove last letter from current guess
+      newCurrentGuess.pop();
+      const newCurrentGuesses = [...currentGuesses];
+      newCurrentGuesses[newCurrentGuesses.length - 1] = newCurrentGuess;
+      return {
+        ...gameState,
+        currentGuesses: newCurrentGuesses,
+      };
     }
-    return {
-      ...gameState,
-      currentGuessWord: newCurrentGuessWord,
-    };
   };
 };
 
-const evaluateGuess: ReducerFactory = (word: string) => {
+const evaluateGuess: ReducerFactory = () => {
   return (gameState: GameState) => {
-    const { gameSettings, currentWord, currentGuesses, currentGuessIndex } =
-      gameState;
+    const { gameSettings, currentWord, currentGuesses } = gameState;
     const { guessesPerRound } = gameSettings;
 
-    //#########################################################
-    //   Stuff we for sure do every time we evaluate a guess
-    //#########################################################
-    //create a Guess from the word and evalute it
-    const evaluatedGuess = word
-      .split('')
-      .map((letter, index) => evaluateLetter(letter, index, currentWord));
-    const isGuessCorrect = checkGuessCorrect(evaluatedGuess);
+    //evaluate the current guess (last guess in the current guesses array)
+    const currentGuess = [...currentGuesses[currentGuesses.length - 1]];
+    const evaluatedCurrentGuess = currentGuess.map(({ letter }, index) =>
+      evaluateLetter(letter, index, currentWord),
+    );
+    const isGuessCorrect = checkGuessCorrect(evaluatedCurrentGuess);
 
-    //update guesses
-    const newGuesses = copyAndUpdateAtIndex(
-      currentGuesses,
-      currentGuessIndex,
-      evaluatedGuess,
-    ) as Guess[];
-    const newCurrentGuessWord = '';
-    const newCurrentGuessIndex = currentGuessIndex + 1;
+    //replace current guesses with evaluated one
+    const newCurrentGuesses = [...currentGuesses];
+    newCurrentGuesses[newCurrentGuesses.length - 1] = evaluatedCurrentGuess;
 
     let newGameState: GameState = {
       ...gameState,
-      currentGuesses: newGuesses,
-      currentGuessWord: newCurrentGuessWord,
-      currentGuessIndex: newCurrentGuessIndex,
+      currentGuesses: newCurrentGuesses,
     };
 
-    //#########################################################
-    //   Stuff we do if the guess is correct or round is over
-    //#########################################################
     //if round is over, update lots of state
     const isRoundOver =
-      isGuessCorrect || newCurrentGuessIndex >= guessesPerRound;
+      isGuessCorrect || newCurrentGuesses.length >= guessesPerRound;
     if (isRoundOver) {
       newGameState = {
         ...newGameState,
         ...endRound(newGameState),
+      };
+    } else {
+      //if not over, add a new guess
+      newGameState = {
+        ...newGameState,
+        currentGuesses: [...newCurrentGuesses, []],
       };
     }
 
@@ -265,7 +248,7 @@ const useGameState = () => {
     newGame: (gameSettings: GameSettings) => dispatch(newGame(gameSettings)),
     addLetter: (letter: string) => dispatch(addLetter(letter)),
     removeLetter: () => dispatch(removeLetter()),
-    evaluateGuess: (word: string) => dispatch(evaluateGuess(word)),
+    evaluateGuess: () => dispatch(evaluateGuess()),
     nextRound: () => dispatch(nextRound()),
   };
 };

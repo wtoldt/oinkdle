@@ -19,8 +19,6 @@ function App() {
     gameScreen,
     history,
     currentGuesses,
-    currentGuessWord,
-    currentGuessIndex,
     currentRoundIndex,
     prevScore,
     score,
@@ -38,9 +36,7 @@ function App() {
           gameSettings={gameSettings}
           score={score}
           currentRoundIndex={currentRoundIndex}
-          currentGuessWord={currentGuessWord}
           currentGuesses={currentGuesses}
-          currentGuessIndex={currentGuessIndex}
         />
       )}
       {gameScreen === 'roundScore' && (
@@ -49,11 +45,17 @@ function App() {
           isGameComplete={isGameComplete}
           prevScore={prevScore}
           newScore={score}
+          gameSettings={gameSettings}
           round={history[currentRoundIndex - 1]}
         />
       )}
       {gameScreen === 'gameScore' && (
-        <GameScoreScreen newGame={newGame} score={score} history={history} />
+        <GameScoreScreen
+          newGame={newGame}
+          score={score}
+          history={history}
+          gameSettings={gameSettings}
+        />
       )}
     </>
   );
