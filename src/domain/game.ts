@@ -37,6 +37,7 @@ type GameState = {
   roundScore: number;
   prevScore: number;
   score: number;
+  isRoundComplete: boolean;
   isGameComplete: boolean;
 };
 
@@ -56,6 +57,7 @@ const initialGameState: GameState = {
   roundScore: 0,
   prevScore: 0,
   score: 0,
+  isRoundComplete: false,
   isGameComplete: false,
 };
 

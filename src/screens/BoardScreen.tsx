@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { debounce } from 'lodash-es';
 import { Board } from '@/components/game/Board';
 import { GameStatusToolbar } from '@/components/game/GameStatusToolbar';
 import { Keyboard } from '@/components/game/Keyboard';
@@ -9,7 +10,9 @@ type BoardScreenProps = React.ComponentPropsWithoutRef<'div'> & {
   evaluateGuess: () => void;
   addLetter: (letter: string) => void;
   removeLetter: () => void;
+  endRound: () => void;
   gameSettings: GameSettings;
+  isRoundComplete: boolean;
   score: number;
   currentRoundIndex: number;
   currentGuesses: Guess[];
@@ -19,7 +22,9 @@ const BoardScreen = ({
   evaluateGuess,
   addLetter,
   removeLetter,
+  endRound,
   gameSettings,
+  isRoundComplete,
   score,
   currentRoundIndex,
   currentGuesses,
@@ -27,11 +32,18 @@ const BoardScreen = ({
   const [animateInvalidGuessLength, setAnimateInvalidGuessLength] =
     React.useState(false);
 
+  // debounced because it's called by the revealEvaluation animation ending
+  //   and that event fires 5 times in a row
+  const debouncedEndRound = debounce(() => {
+    endRound();
+  }, 200);
   const currentGuess = currentGuesses[currentGuesses.length - 1];
 
   const handleAnimationEnd = (e: React.AnimationEvent<HTMLDivElement>) => {
     if (e.animationName === 'headShake') {
       setAnimateInvalidGuessLength(false);
+    } else if (isRoundComplete && e.animationName === 'revealEvaluation') {
+      debouncedEndRound();
     }
   };
 

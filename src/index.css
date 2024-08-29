@@ -102,7 +102,9 @@
     background-color: var(--ev-bg-color);
     color: var(--ev-text-color);
   }
-  .animate .evaluated {
+  /* the specificity of the evaluated animation must remain higher than the filled animation */
+  /* it works, but it is very brittle */
+  .animate .row div.evaluated {
     animation: revealEvaluation 0.5s;
     animation-delay: calc(var(--order) * 0.1s);
     animation-fill-mode: both;

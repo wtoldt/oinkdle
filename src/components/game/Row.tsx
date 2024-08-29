@@ -8,7 +8,7 @@ import {
 } from '@/domain/game';
 import { cn } from '@/utils/cn';
 
-const rowVariants = cva('mx-auto flex', {
+const rowVariants = cva('row mx-auto flex', {
   variants: {
     size: {
       big: 'board-gap-big',

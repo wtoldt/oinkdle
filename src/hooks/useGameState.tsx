@@ -92,6 +92,13 @@ const updateGameScores: Reducer = (gameState: GameState) => {
   };
 };
 
+const resetIsRoundComplete: Reducer = (gameState: GameState) => {
+  return {
+    ...gameState,
+    isRoundComplete: false,
+  };
+};
+
 const evaluateIsGameComplete: Reducer = (gameState: GameState) => {
   //newCurrentRoundIndex is zero based, so when it reaches gameSettings.rounds, it's game over
   return {
@@ -99,22 +106,6 @@ const evaluateIsGameComplete: Reducer = (gameState: GameState) => {
     isGameComplete:
       gameState.currentRoundIndex >= gameState.gameSettings.rounds,
   };
-};
-
-const endRound: Reducer = (gameState: GameState) => {
-  return [
-    goToRoundScoreScreen,
-    scoreRound,
-    updateHistory,
-    incrementCurrentRoundIndex,
-    setCurrentWordToNextWord,
-    resetCurrentGuesses,
-    updateGameScores,
-    evaluateIsGameComplete,
-  ].reduce(
-    (newGameState: GameState, reducer: Reducer) => reducer(newGameState),
-    gameState,
-  );
 };
 
 const newGame: ReducerFactory = (gameSettings: GameSettings) => {
@@ -133,6 +124,7 @@ const newGame: ReducerFactory = (gameSettings: GameSettings) => {
       roundScore: 0,
       prevScore: 0,
       score: 0,
+      isRoundComplete: false,
       isGameComplete: false,
     };
   };
@@ -191,7 +183,6 @@ const evaluateGuess: ReducerFactory = () => {
     const evaluatedCurrentGuess = currentGuess.map(({ letter }, index) =>
       evaluateLetter(letter, index, currentWord),
     );
-    const isGuessCorrect = checkGuessCorrect(evaluatedCurrentGuess);
 
     //replace current guesses with evaluated one
     const newCurrentGuesses = [...currentGuesses];
@@ -202,13 +193,14 @@ const evaluateGuess: ReducerFactory = () => {
       currentGuesses: newCurrentGuesses,
     };
 
-    //if round is over, update lots of state
+    //handle round over
+    const isGuessCorrect = checkGuessCorrect(evaluatedCurrentGuess);
     const isRoundOver =
       isGuessCorrect || newCurrentGuesses.length >= guessesPerRound;
     if (isRoundOver) {
       newGameState = {
         ...newGameState,
-        ...endRound(newGameState),
+        isRoundComplete: true,
       };
     } else {
       //if not over, add a new guess
@@ -220,6 +212,25 @@ const evaluateGuess: ReducerFactory = () => {
 
     //return state
     return newGameState;
+  };
+};
+
+const endRound: ReducerFactory = () => {
+  return (gameState: GameState) => {
+    return [
+      goToRoundScoreScreen,
+      scoreRound,
+      updateHistory,
+      incrementCurrentRoundIndex,
+      setCurrentWordToNextWord,
+      resetCurrentGuesses,
+      updateGameScores,
+      resetIsRoundComplete,
+      evaluateIsGameComplete,
+    ].reduce(
+      (newGameState: GameState, reducer: Reducer) => reducer(newGameState),
+      gameState,
+    );
   };
 };
 
@@ -249,6 +260,7 @@ const useGameState = () => {
     addLetter: (letter: string) => dispatch(addLetter(letter)),
     removeLetter: () => dispatch(removeLetter()),
     evaluateGuess: () => dispatch(evaluateGuess()),
+    endRound: () => dispatch(endRound()),
     nextRound: () => dispatch(nextRound()),
   };
 };

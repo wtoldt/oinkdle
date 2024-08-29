@@ -12,6 +12,7 @@ function App() {
     addLetter,
     removeLetter,
     evaluateGuess,
+    endRound,
     nextRound,
   } = useGameState();
   const {
@@ -22,6 +23,7 @@ function App() {
     currentRoundIndex,
     prevScore,
     score,
+    isRoundComplete,
     isGameComplete,
   } = gameState;
   return (
@@ -33,7 +35,9 @@ function App() {
           evaluateGuess={evaluateGuess}
           addLetter={addLetter}
           removeLetter={removeLetter}
+          endRound={endRound}
           gameSettings={gameSettings}
+          isRoundComplete={isRoundComplete}
           score={score}
           currentRoundIndex={currentRoundIndex}
           currentGuesses={currentGuesses}
