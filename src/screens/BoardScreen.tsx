@@ -97,7 +97,9 @@ const BoardScreen = ({
         )}
         currentGuessIndex={currentGuessIndex}
         onAnimationEnd={handleAnimationEnd}
-        className={cn('mb-3', { 'shake-unfilled': animateInvalidGuessLength })}
+        className={cn('animate-evaluation mb-3', {
+          'shake-unfilled': animateInvalidGuessLength,
+        })}
       />
       <div className="flex flex-1 items-end justify-center">
         <Keyboard parseKey={parseKey} currentGuesses={currentGuesses} />

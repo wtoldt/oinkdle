@@ -28,7 +28,13 @@ const Row = ({ guess, className, size, current }: RowProps) => {
   return (
     <div className={cn(rowVariants({ size, current }), className)}>
       {guess.map(({ letter, evaluation }, index) => (
-        <Tile key={index} letter={letter} evaluation={evaluation} size={size} />
+        <Tile
+          key={index}
+          letter={letter}
+          evaluation={evaluation}
+          size={size}
+          style={{ '--order': `${index}` } as React.CSSProperties}
+        />
       ))}
     </div>
   );

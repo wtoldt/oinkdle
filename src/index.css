@@ -53,35 +53,59 @@
   }
 
   /* common styles for evaluation */
-  .evaluation-correct {
-    text-shadow: 0 1px 2px rgb(21 128 61 / var(--tw-bg-opacity));
-    @apply bg-green-500 text-white;
+
+  .evaluation-unevaluated {
+    text-shadow: var(--ev-unevaluated-text-shadow);
+    background-color: var(--ev-unevaluated-bg-color);
+    color: var(--ev-unevaluated-text-color);
     &.btn {
+      @apply transition-colors hover:bg-slate-300/90 active:bg-slate-400;
+    }
+  }
+  .evaluation-correct {
+    --ev-text-shadow: var(--ev-correct-text-shadow);
+    --ev-bg-color: var(--ev-correct-bg-color);
+    --ev-text-color: var(--ev-correct-text-color);
+    &.btn {
+      text-shadow: var(--ev-correct-text-shadow);
+      background-color: var(--ev-correct-bg-color);
+      color: var(--ev-correct-text-color);
       @apply transition-colors hover:bg-green-500/90 active:bg-green-600;
     }
   }
 
   .evaluation-present {
-    text-shadow: 0 1px 2px rgb(161 98 7 / var(--tw-bg-opacity));
-    @apply bg-yellow-500 text-white;
+    --ev-text-shadow: var(--ev-present-text-shadow);
+    --ev-bg-color: var(--ev-present-bg-color);
+    --ev-text-color: var(--ev-present-text-color);
     &.btn {
+      text-shadow: var(--ev-present-text-shadow);
+      background-color: var(--ev-present-bg-color);
+      color: var(--ev-present-text-color);
       @apply transition-colors hover:bg-yellow-500/90 active:bg-yellow-600;
     }
   }
 
   .evaluation-absent {
-    text-shadow: 0 1px 2px rgb(51 65 85 / var(--tw-bg-opacity));
-    @apply bg-slate-500 text-white;
+    --ev-text-shadow: var(--ev-absent-text-shadow);
+    --ev-bg-color: var(--ev-absent-bg-color);
+    --ev-text-color: var(--ev-absent-text-color);
     &.btn {
+      text-shadow: var(--ev-absent-text-shadow);
+      background-color: var(--ev-absent-bg-color);
+      color: var(--ev-absent-text-color);
       @apply transition-colors hover:bg-slate-500/90 active:bg-slate-600;
     }
   }
-
-  .evaluation-unevaluated {
-    @apply bg-slate-300 text-black;
-    &.btn {
-      @apply transition-colors hover:bg-slate-300/90 active:bg-slate-400;
-    }
+  .evaluated {
+    text-shadow: var(--ev-text-shadow);
+    background-color: var(--ev-bg-color);
+    color: var(--ev-text-color);
+  }
+  .animate-evaluation .evaluated {
+    animation: revealEvaluation 0.5s;
+    animation-delay: calc(var(--order) * 0.1s);
+    animation-fill-mode: both;
   }
 
   .current .filled {
@@ -124,6 +148,33 @@
     }
     to {
       transform: translateY(5px);
+    }
+  }
+
+  @keyframes revealEvaluation {
+    0% {
+      transform: rotateY(0);
+      text-shadow: var(--ev-unevaluated-text-shadow);
+      background-color: var(--ev-unevaluated-bg-color);
+      color: var(--ev-unevaluated-text-color);
+    }
+    45% {
+      transform: rotateY(90deg);
+      text-shadow: var(--ev-unevaluated-text-shadow);
+      background-color: var(--ev-unevaluated-bg-color);
+      color: var(--ev-unevaluated-text-color);
+    }
+    55% {
+      transform: rotateY(90deg);
+      text-shadow: var(--ev-text-shadow);
+      background-color: var(--ev-bg-color);
+      color: var(--ev-text-color);
+    }
+    100% {
+      transform: rotateY(0);
+      text-shadow: var(--ev-text-shadow);
+      background-color: var(--ev-bg-color);
+      color: var(--ev-text-color);
     }
   }
 }

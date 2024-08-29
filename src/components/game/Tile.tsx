@@ -6,9 +6,9 @@ import { cn } from '@/utils/cn';
 const tileVariants = cva('flex items-center justify-center', {
   variants: {
     evaluation: {
-      correct: 'evaluation-correct',
-      present: 'evaluation-present',
-      absent: 'evaluation-absent',
+      correct: 'evaluated evaluation-correct',
+      present: 'evaluated evaluation-present',
+      absent: 'evaluated evaluation-absent',
       unevaluated: 'evaluation-unevaluated',
     },
     size: {
@@ -29,14 +29,16 @@ type TileProps = React.ComponentPropsWithoutRef<'div'> &
   VariantProps<typeof tileVariants> &
   LetterEvaluation;
 
-const Tile = ({ letter, evaluation, size }: TileProps) => {
+const Tile = ({ letter, evaluation, size, className, ...props }: TileProps) => {
   return (
     <div
       className={cn(
         tileVariants({ evaluation, size }),
         { filled: letter },
         { unfilled: !letter },
+        className,
       )}
+      {...props}
     >
       {size === 'tiny' ? '' : letter}
     </div>

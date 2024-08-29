@@ -21,6 +21,23 @@
     --ring: 142.1 76.2% 36.3%;
     --radius: 0.75rem;
 
+    /* evaluation styles */
+    --ev-unevaluated-text-shadow: inherit;
+    --ev-unevaluated-bg-color: theme(colors.slate.300);
+    --ev-unevaluated-text-color: theme(colors.black);
+
+    --ev-correct-text-shadow: 0 1px 2px theme(colors.green.700);
+    --ev-correct-bg-color: theme(colors.green.500);
+    --ev-correct-text-color: theme(colors.white);
+
+    --ev-present-text-shadow: 0 1px 2px theme(colors.yellow.700);
+    --ev-present-bg-color: theme(colors.yellow.500);
+    --ev-present-text-color: theme(colors.white);
+
+    --ev-absent-text-shadow: 0 1px 2px theme(colors.slate.700);
+    --ev-absent-bg-color: theme(colors.slate.500);
+    --ev-absent-text-color: theme(colors.white);
+
     --fooCard: hsl(0 0% 100%);
     --fooCardFG: hsl(240 10% 3.9%);
 
