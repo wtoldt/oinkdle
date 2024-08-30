@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/Button';
 import { HeartCrackIcon } from '@/components/ui/HeartCrackIcon';
 import { TargetIcon } from '@/components/ui/TargetIcon';
 import { TrophyIcon } from '@/components/ui/TrophyIcon';
-import { type Round } from '@/domain/game';
+import { type GameSettings, type Round } from '@/domain/game';
 import { cn } from '@/utils/cn';
 import {
   checkGuessComplete,
@@ -20,6 +20,7 @@ type RoundScoreScreenProps = {
   prevScore: number;
   newScore: number;
   round: Round;
+  gameSettings: GameSettings;
 };
 const RoundScoreScreen = ({
   nextRound,
@@ -27,6 +28,7 @@ const RoundScoreScreen = ({
   prevScore,
   newScore,
   round,
+  gameSettings,
 }: RoundScoreScreenProps) => {
   //set up autofocus delay for button
   const buttonRef = React.useRef<HTMLButtonElement>(null);
@@ -62,6 +64,7 @@ const RoundScoreScreen = ({
             word,
             wasGuessCorrect ? 'correct' : 'unevaluated',
           )}
+          wordLength={gameSettings.wordLength}
         />
       </div>
       <Divider thickness="thick" />
@@ -72,6 +75,8 @@ const RoundScoreScreen = ({
         <Board
           guesses={guesses}
           size={'small'}
+          wordLength={gameSettings.wordLength}
+          guessesPerRound={gameSettings.guessesPerRound}
           className="mb-2 flex-none rounded-md bg-secondary p-2 sm:mb-0 sm:p-3"
         />
         <div className="flex flex-col items-center justify-center">

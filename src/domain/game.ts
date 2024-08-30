@@ -33,12 +33,11 @@ type GameState = {
   currentWord: string;
   history: Round[];
   currentGuesses: Guess[];
-  currentGuessWord: string;
-  currentGuessIndex: number;
   currentRoundIndex: number;
   roundScore: number;
   prevScore: number;
   score: number;
+  isRoundComplete: boolean;
   isGameComplete: boolean;
 };
 
@@ -54,12 +53,11 @@ const initialGameState: GameState = {
   currentWord: '',
   history: [],
   currentGuesses: [],
-  currentGuessWord: '',
-  currentGuessIndex: 0,
   currentRoundIndex: 0,
   roundScore: 0,
   prevScore: 0,
   score: 0,
+  isRoundComplete: false,
   isGameComplete: false,
 };
 

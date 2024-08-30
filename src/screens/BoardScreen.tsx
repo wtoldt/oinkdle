@@ -1,75 +1,92 @@
 import * as React from 'react';
+import { debounce } from 'lodash-es';
 import { Board } from '@/components/game/Board';
 import { GameStatusToolbar } from '@/components/game/GameStatusToolbar';
 import { Keyboard } from '@/components/game/Keyboard';
 import { type GameSettings, type Guess } from '@/domain/game';
-import { copyAndUpdateAtIndex } from '@/utils/game-state-utils';
-import { createUnfinishedGuess } from '@/utils/guess-utils';
+import { cn } from '@/utils/cn';
 
 type BoardScreenProps = React.ComponentPropsWithoutRef<'div'> & {
-  evaluateGuess: (word: string) => void;
+  evaluateGuess: () => void;
   addLetter: (letter: string) => void;
   removeLetter: () => void;
+  endRound: () => void;
   gameSettings: GameSettings;
+  isRoundComplete: boolean;
   score: number;
   currentRoundIndex: number;
-  currentGuessWord: string;
   currentGuesses: Guess[];
-  currentGuessIndex: number;
 };
 
 const BoardScreen = ({
   evaluateGuess,
   addLetter,
   removeLetter,
+  endRound,
   gameSettings,
+  isRoundComplete,
   score,
   currentRoundIndex,
-  currentGuessWord,
   currentGuesses,
-  currentGuessIndex,
 }: BoardScreenProps) => {
-  const { rounds, wordLength } = gameSettings;
-  //todo: this should probably go somewhere else... maybe address it when adding animations
+  const [animateInvalidGuessLength, setAnimateInvalidGuessLength] =
+    React.useState(false);
+
+  // debounced because it's called by the revealEvaluation animation ending
+  //   and that event fires 5 times in a row
+  const debouncedEndRound = debounce(() => {
+    endRound();
+  }, 200);
+  const currentGuess = currentGuesses[currentGuesses.length - 1];
+
+  const handleAnimationEnd = (e: React.AnimationEvent<HTMLDivElement>) => {
+    if (e.animationName === 'headShake') {
+      setAnimateInvalidGuessLength(false);
+    } else if (isRoundComplete && e.animationName === 'revealEvaluation') {
+      debouncedEndRound();
+    }
+  };
+
+  const { rounds, wordLength, guessesPerRound } = gameSettings;
   const evaluateGuessIfValid = React.useCallback(
-    (word: string) => {
-      if (word.length === wordLength) {
-        //todo: test if word is in wordList
-        // if not, show error
-        // if yes, evaluateGuess
-        evaluateGuess(word);
+    (guess: Guess) => {
+      if (guess.length === wordLength) {
+        evaluateGuess();
       } else {
-        //todo: play animation
-        console.log(
-          `${word} is not ${wordLength} letters long (it is ${currentGuessWord.length})`,
-        );
+        setAnimateInvalidGuessLength(true);
       }
     },
-    [currentGuessWord, evaluateGuess, wordLength],
+    [evaluateGuess, wordLength],
   );
 
   const parseKey = React.useCallback(
-    (e: KeyboardEvent) => {
+    (e: KeyboardEvent | { key: string }) => {
+      let isKeyRepeating = false;
+      if (e instanceof KeyboardEvent) {
+        isKeyRepeating = e.repeat;
+      }
+      // Prevent repeating keys
+      if (isKeyRepeating) {
+        return;
+      }
       const { key } = e;
       const aplhaOnly = /^[a-z]$/;
 
       if (key === 'Enter') {
-        evaluateGuessIfValid(currentGuessWord);
+        evaluateGuessIfValid(currentGuess);
       } else if (key === 'Backspace') {
         removeLetter();
       } else if (aplhaOnly.test(key)) {
         addLetter(key);
       }
     },
-    [currentGuessWord, evaluateGuessIfValid, removeLetter, addLetter],
+    [evaluateGuessIfValid, currentGuess, removeLetter, addLetter],
   );
 
   React.useEffect(() => {
     document.addEventListener('keydown', parseKey);
     return () => document.removeEventListener('keydown', parseKey);
-  }, [currentGuessWord, parseKey]);
-
-  const currentGuess = createUnfinishedGuess(currentGuessWord, wordLength);
+  }, [parseKey]);
 
   return (
     <div className="container flex h-screen flex-col justify-center px-4">
@@ -79,21 +96,16 @@ const BoardScreen = ({
         totalRounds={rounds}
       />
       <Board
-        guesses={copyAndUpdateAtIndex(
-          currentGuesses,
-          currentGuessIndex,
-          currentGuess,
-        )}
-        className="mb-3"
+        guesses={currentGuesses}
+        guessesPerRound={guessesPerRound}
+        wordLength={wordLength}
+        onAnimationEnd={handleAnimationEnd}
+        className={cn('animate mb-3', {
+          'shake-unfilled': animateInvalidGuessLength,
+        })}
       />
       <div className="flex flex-1 items-end justify-center">
-        <Keyboard
-          addLetter={addLetter}
-          removeLetter={removeLetter}
-          evaluateGuess={evaluateGuessIfValid}
-          currentGuessWord={currentGuessWord}
-          currentGuesses={currentGuesses}
-        />
+        <Keyboard parseKey={parseKey} currentGuesses={currentGuesses} />
       </div>
     </div>
   );

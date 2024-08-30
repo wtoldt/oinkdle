@@ -12,6 +12,7 @@ function App() {
     addLetter,
     removeLetter,
     evaluateGuess,
+    endRound,
     nextRound,
   } = useGameState();
   const {
@@ -19,11 +20,10 @@ function App() {
     gameScreen,
     history,
     currentGuesses,
-    currentGuessWord,
-    currentGuessIndex,
     currentRoundIndex,
     prevScore,
     score,
+    isRoundComplete,
     isGameComplete,
   } = gameState;
   return (
@@ -35,12 +35,12 @@ function App() {
           evaluateGuess={evaluateGuess}
           addLetter={addLetter}
           removeLetter={removeLetter}
+          endRound={endRound}
           gameSettings={gameSettings}
+          isRoundComplete={isRoundComplete}
           score={score}
           currentRoundIndex={currentRoundIndex}
-          currentGuessWord={currentGuessWord}
           currentGuesses={currentGuesses}
-          currentGuessIndex={currentGuessIndex}
         />
       )}
       {gameScreen === 'roundScore' && (
@@ -49,11 +49,17 @@ function App() {
           isGameComplete={isGameComplete}
           prevScore={prevScore}
           newScore={score}
+          gameSettings={gameSettings}
           round={history[currentRoundIndex - 1]}
         />
       )}
       {gameScreen === 'gameScore' && (
-        <GameScoreScreen newGame={newGame} score={score} history={history} />
+        <GameScoreScreen
+          newGame={newGame}
+          score={score}
+          history={history}
+          gameSettings={gameSettings}
+        />
       )}
     </>
   );
